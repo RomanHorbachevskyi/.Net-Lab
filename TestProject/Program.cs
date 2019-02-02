@@ -19,6 +19,7 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson1.Task2(),
                 new TaskLibrary.Tasks.Lesson2.Task1(),
                 new TaskLibrary.Tasks.Lesson2.Task2(),
+                new TaskLibrary.Tasks.Lesson2.Task3(),
 
             };
             
@@ -28,7 +29,7 @@ namespace TestProject
             Console.ReadLine();
 
             NextTask:
-            Console.WriteLine("What do you want to do, check all Tasks (\"a\") or some specific (\"s\"):");
+            Console.WriteLine("What do you want to do, check All Tasks (\"a\") or some specific (\"s\"):");
             string s = Console.ReadLine().ToLower();
             
             //checking entered text(letter)
