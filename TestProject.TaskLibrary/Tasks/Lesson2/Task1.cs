@@ -7,9 +7,111 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
 {
     public class Task1 : IRunnable
     {
-        public void Run()
+        public void Run() // main method
         {
-            throw new NotImplementedException();
+            Console.WriteLine("*** Now you are in Lesson2.Task1 ***");
+            //Console.WriteLine("*** Select one of Tasks listed below ***");
+            Console.WriteLine("\n* Task1: Calculate 'Perimetr' and 'Area' of rectangle." +
+                              "\n       Needed Top-Left and Bottom-Right coordinates");
+
+            // initializing Coordinates
+            int TLX;
+            int TLY;
+            int BRX;
+            int BRY;
+
+            NextTry:
+            TLX = 0;
+            TLY = 0;
+            BRX = 0;
+            BRY = 0;
+
+            //setting coordinates for Rectangle
+            Console.WriteLine("Enter Top-Left coordinate (int) X: ");
+            string s = Console.ReadLine().ToLower();
+            this.SetCd(ref s, ref TLX);
+            Console.WriteLine("Enter Top-Left coordinate (int) Y: ");
+            s = Console.ReadLine().ToLower();
+            this.SetCd(ref s, ref TLY);
+            Console.WriteLine("Enter Bottom-Right coordinate (int) X: ");
+            s = Console.ReadLine().ToLower();
+            this.SetCd(ref s, ref BRX);
+            Console.WriteLine("Enter Bottom-Right coordinate (int) Y: ");
+            s = Console.ReadLine().ToLower();
+            this.SetCd(ref s, ref BRY);
+
+            //ckecking for Zero length
+            if ((TLX == BRX) | (TLY == BRY))
+            {
+                Console.WriteLine("Wrong coordinates. Some side of rectangle has 0 length.");
+                goto NextTry;
+            }
+
+            //creating Rectangle instance
+            Rectangle1 rec=new Rectangle1(ref TLX,ref TLY,ref BRX,ref BRY);
+            rec.Perimeter();
+            rec.Area();
+        }
+
+        public void SetCd(ref string S, ref int Cd)
+        {
+            //setting Coordinates or Exit
+            if ((S == "q") | (S == "b"))
+            {
+                Environment.Exit(0);
+            }
+            //bool parsed= Int32.TryParse(s, out TLX);
+            while (!Int32.TryParse(S, out Cd))
+            {
+                Console.WriteLine("Entered incorrect value.\nEnter only digits: ");
+                S = Console.ReadLine().ToLower();
+                this.SetCd(ref S,ref Cd);
+            }
+        }
+
+    }
+
+    public class Rectangle1
+    {
+        //(int tlx, int tly, int brx, int bry)
+        private int TLX, TLY, BRX, BRY;
+
+        public Rectangle1(ref int tlx, ref int tly, ref int brx, ref int bry)
+        {
+            TLX = tlx;
+            TLY = tly;
+            BRX = brx;
+            BRY = bry;
+        }
+
+        public void Perimeter()
+        {
+            int a = BRX - TLX;
+            if (a < 0)
+                a *= -1;
+            int b = TLY - BRY;
+            if (b < 0)
+                b *= -1;
+            Console.WriteLine("Rectangle with coordinates Top-Left X, Y: {0}, {1}",TLX,TLY);
+            Console.WriteLine("and Bottom-Right X, Y: {0}, {1}", BRX, BRY);
+            Console.WriteLine("has Perimeter: "+ (2 * (a + b)));
+            Console.WriteLine();
+
+        }
+
+        public void Area()
+        {
+            int a = BRX - TLX;
+            if (a < 0)
+                a *= -1;
+            int b = TLY - BRY;
+            if (b < 0)
+                b *= -1;
+            Console.WriteLine("Rectangle with coordinates Top-Left X, Y: {0}, {1}", TLX, TLY);
+            Console.WriteLine("and Bottom-Right X, Y: {0}, {1}", BRX, BRY);
+            Console.WriteLine("has Area: " + (a * b));
+            Console.WriteLine();
         }
     }
+
 }

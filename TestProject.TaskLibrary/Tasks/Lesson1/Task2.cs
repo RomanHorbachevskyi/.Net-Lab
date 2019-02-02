@@ -9,7 +9,9 @@ namespace TestProject.TaskLibrary.Tasks.Lesson1
     {
         public void Run()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("*** Now you are in Lesson1.Task2 ***");
+            Console.WriteLine("    Sorry, To check Lesson1.Task2 we need to use Forms instead of .NET Core.\n");
+            //Console.ReadLine();
         }
     }
 }
