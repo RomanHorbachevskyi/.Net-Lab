@@ -21,6 +21,7 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson2.Task2(),
                 new TaskLibrary.Tasks.Lesson2.Task3(),
                 new TaskLibrary.Tasks.Lesson2.Task4(),
+                new TaskLibrary.Tasks.Lesson2.Task5()
 
             };
             
