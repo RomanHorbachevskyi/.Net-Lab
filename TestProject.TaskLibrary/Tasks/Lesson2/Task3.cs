@@ -23,10 +23,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             //setting Radius for Circle
             Console.WriteLine("Enter Radius (int): ");
             string s = Console.ReadLine().ToLower();
-            this.SetR( s);
+            this.SetR(ref s);
 
             R=Int32.Parse(s);
-            //ckecking for Zero length
+            //checking for Zero length
             if (R<=0)
             {
                 Console.WriteLine("Wrong Radius.");
@@ -39,20 +39,20 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             crl.Area(ref R);
         }
 
-        private void SetR(object R)
+        private void SetR(ref string R)
         {
             int r;
             //setting Radius or Exit
-            if ((R.ToString() == "q") | (R.ToString() == "b"))
+            if ((R == "q") | (R == "b"))
             {
                 Environment.Exit(0);
             }
             //bool parsed= Int32.TryParse(R, out R);
-            while (!Int32.TryParse(R.ToString(), out r) | (r <= 0))
+            while (!Int32.TryParse(R, out r) | (r <= 0))
             {
                 Console.WriteLine("Entered incorrect value.\nEnter only positive digits: ");
                 R = Console.ReadLine().ToLower();
-                this.SetR(R);
+                this.SetR(ref R);
             }
         }
 
