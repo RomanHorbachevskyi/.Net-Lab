@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TestProject.Common.Core.Classes;
 using TestProject.Common.Core.Interfaces;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson2
@@ -11,7 +12,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
         {
             Console.WriteLine("*** Now you are in Lesson2.Task1 ***");
             //Console.WriteLine("*** Select one of Tasks listed below ***");
-            Console.WriteLine("\n* Task1: Calculate 'Perimetr' and 'Area' of rectangle." +
+            Console.WriteLine("\n* Task1: Calculate 'Perimeter' and 'Area' of rectangle." +
                               "\n       Needed Top-Left and Bottom-Right coordinates");
 
             // initializing Coordinates
@@ -29,16 +30,16 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             //setting coordinates for Rectangle
             Console.WriteLine("Enter Top-Left coordinate (int) X: ");
             string s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref TLX);
+            SetCd(ref s, ref TLX);
             Console.WriteLine("Enter Top-Left coordinate (int) Y: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref TLY);
+            SetCd(ref s, ref TLY);
             Console.WriteLine("Enter Bottom-Right coordinate (int) X: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref BRX);
+            SetCd(ref s, ref BRX);
             Console.WriteLine("Enter Bottom-Right coordinate (int) Y: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref BRY);
+            SetCd(ref s, ref BRY);
 
             //ckecking for Zero length
             if ((TLX == BRX) | (TLY == BRY))
@@ -53,19 +54,16 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             rec.Area();
         }
 
-        public void SetCd(ref string S, ref int Cd)
+        public static void SetCd(ref string S, ref int Cd)
         {
             //setting Coordinates or Exit
-            if ((S == "q") | (S == "b"))
-            {
-                Environment.Exit(0);
-            }
+            ConsIO.CheckForExitTask(ref S);
             //bool parsed= Int32.TryParse(s, out TLX);
             while (!Int32.TryParse(S, out Cd))
             {
                 Console.WriteLine("Entered incorrect value.\nEnter only digits: ");
                 S = Console.ReadLine().ToLower();
-                this.SetCd(ref S,ref Cd);
+                SetCd(ref S,ref Cd);
             }
         }
 

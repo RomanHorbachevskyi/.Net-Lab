@@ -31,18 +31,18 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             //setting coordinates for Rectangle
             Console.WriteLine("Enter Top-Left coordinate (int) X: ");
             string s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref TLX);
+            Task1.SetCd(ref s, ref TLX);
             Console.WriteLine("Enter Top-Left coordinate (int) Y: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref TLY);
+            Task1.SetCd(ref s, ref TLY);
             Console.WriteLine("Enter Bottom-Right coordinate (int) X: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref BRX);
+            Task1.SetCd(ref s, ref BRX);
             Console.WriteLine("Enter Bottom-Right coordinate (int) Y: ");
             s = Console.ReadLine().ToLower();
-            this.SetCd(ref s, ref BRY);
+            Task1.SetCd(ref s, ref BRY);
 
-            //ckecking for Zero length
+            // checking for Zero length
             if ((TLX == BRX) | (TLY == BRY))
             {
                 Console.WriteLine("Wrong coordinates. Some side of rectangle has 0 length.");
@@ -55,7 +55,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             rec.Area();
         }
 
-        public void SetCd(ref string S, ref int Cd)
+        /*public void SetCd(ref string S, ref int Cd)
         {
             //setting Coordinates or Exit
             if ((S == "q") | (S == "b"))
@@ -69,7 +69,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
                 S = Console.ReadLine().ToLower();
                 this.SetCd(ref S,ref Cd);
             }
-        }
+        }*/
 
     }
 
