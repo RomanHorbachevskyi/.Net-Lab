@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilites;
 using TestProject.Common.Core.Interfaces;
 using TestProject.TaskLibrary.Tasks.Lesson4;
 
@@ -22,33 +23,31 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             int RectanglesCount;
             int windowWidth = ConsIO.WindowWidth;
             int windowHeight = ConsIO.WindowHeight;
-            int[] tempTopLeftX, tempTopLeftY, tempWidth, tempHeight;
+            
             Rectangle[] rectangles;
             int xBoundLeft = 0, xBoundRight = 0, yBoundTop = 0, yBoundBottom = 0;
-            int dX, dY;
-            int index;
-
-            int tempX, tempY, tempW, tempH;
-
+            
             string s = "*** Now you are in Lesson8.Task1 ***\n    Work with Rectangle";
             ConsIO.WriteLine(s);
             ConsIO.Write("How many rectangles do you want to draw?:  ");
             s = ConsIO.ReadLine();
             ConsIO.CheckForExitTask(ref s);
-            RectanglesCount = GetIntPositiveNumber(s);
+            RectanglesCount = Validators.GetIntPositiveNumber(s);
 
+            /*
             tempTopLeftX = new int[RectanglesCount];
             tempTopLeftY = new int[RectanglesCount];
             tempWidth = new int[RectanglesCount];
             tempHeight = new int[RectanglesCount];
+            */
             rectangles = new Rectangle[RectanglesCount];
+            
 
             ConsIO.WriteLine("\n***  Window dimensions: " + windowWidth + "; " + windowHeight + "  ***\n");
 
             for (int i = 0; i < RectanglesCount; i++)
             {
-                Rectangle.Create(ref i, ref tempTopLeftX[i], ref tempTopLeftY[i], ref tempWidth[i],
-                    ref tempHeight[i], ref rectangles);
+                CreateRectangle(ref i, ref rectangles);
                 
             }
             ConsIO.Clear();
@@ -71,14 +70,15 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             ConsIO.ClearBottom(ref OffsetBottom);
 
-            //ConsIO.Clear();
-
             ConsIO.ReadLine();
-
-            
         }
 
-
+        /// <summary>
+        /// Asks what to do next. Text is displayed in the line
+        /// "offsetBottom" from the bottom of window.
+        /// </summary>
+        /// <param name="offsetBottom">Distance (number of lines)</param>
+        /// <param name="rectangles">An array of rectangles we work with</param>
         private static void WhatToDo(ref int offsetBottom, ref Rectangle[] rectangles)
         {
             string s;
@@ -92,109 +92,41 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             if (s.ToLower() == "m")
             {
                 ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = GetIntPositiveNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter values for dX:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = GetIntNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\r  for dY:");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dY = GetIntNumber(s);
-                Rectangle.Move(index - 1, ref rectangles, dX, dY);
+                MoveRectangle(ref rectangles);
             }
             else if (s.ToLower() == "r")
             {
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = GetIntPositiveNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter values for dX:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = GetIntNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\r  for dY:");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dY = GetIntNumber(s);
-                Rectangle.Resize(index - 1, ref rectangles, dX, dY);
+                ResizeRectangle(ref rectangles);
+                Rectangle.Draw(rectangles);
             }
             else if (s.ToLower() == "i")
             {
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle a:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = GetIntPositiveNumber(s) - 1;
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle b:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = GetIntPositiveNumber(s) - 1;
+                EnterIntPositive("\rEnter number of rectangle a:  ", out index);
+                EnterIntPositive("\rEnter number of rectangle b:  ", out dX);
+                index -= 1;
+                dX -= 1;
                 CreateIntersectedRectangle(index, dX, ref rectangles);
+                Rectangle.Draw(rectangles);
             }
             else if (s.ToLower() == "s")
             {
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle a:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = GetIntPositiveNumber(s) - 1;
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle b:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = GetIntPositiveNumber(s) - 1;
+                EnterIntPositive("\rEnter number of rectangle a:  ", out index);
+                EnterIntPositive("\rEnter number of rectangle b:  ", out dX);
+                index -= 1;
+                dX -= 1;
                 CreateSmallestRectangle(index, dX, ref rectangles);
             }
             
             WhatToDo(ref offsetBottom, ref rectangles);
         }
 
-        
         /// <summary>
-        /// Returns integer number >0
+        /// Checks if rectangle "a" intersects with rectangle "b"
+        /// and creates rectangle from intersection.
         /// </summary>
-        /// <param name="s">String to read number(parse) from</param>
-        /// <returns></returns>
-        public static int GetIntPositiveNumber(string s)
-        {
-            ConsIO.CheckForExitTask(ref s);
-            int value;
-            while ((Int32.TryParse(s, out value) == false) || (value <= 0))
-            {
-                ConsIO.WriteLine("Entered incorrect value. Enter only positive integer numbers.");
-                s = ConsIO.ReadLine();
-                GetIntPositiveNumber(s);
-            }
-            return value;
-        }
-        /// <summary>
-        /// Returns integer quantity (number)
-        /// </summary>
-        /// <param name="s">String to read number(parse) from</param>
-        /// <returns></returns>
-        public static int GetIntNumber(string s)
-        {
-            ConsIO.CheckForExitTask(ref s);
-            int value;
-            while ((Int32.TryParse(s, out value) == false))
-            {
-                ConsIO.WriteLine("Entered incorrect value. Enter only integer numbers.");
-                s = ConsIO.ReadLine();
-                GetIntNumber(s);
-            }
-            return value;
-        }
-
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="rects"></param>
         private static void CreateIntersectedRectangle(int a, int b, ref Rectangle[] rects)
         {
             int OffsetBottom = Rectangle.OffsetBottom;
@@ -220,6 +152,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             }
             WhatToDo(ref OffsetBottom, ref rects);
         }
+        
         /// <summary>
         /// Checks smallest rectangle dimensions with our bounds and
         /// creates it if it is inside bounds. If no - asks what to do. 
@@ -252,6 +185,177 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             }
             WhatToDo(ref Rectangle.OffsetBottom, ref rects);
         }
+
+        /// <summary>
+        /// Creates new rectangle and checks is it inside our limits of window
+        /// </summary>
+        /// <param name="i">Index of array element</param>
+        /// <param name="tempTopLeftX">Top left X coordinate</param>
+        /// <param name="tempTopLeftY">Top left Y coordinate</param>
+        /// <param name="tempWidth">Width</param>
+        /// <param name="tempHeight">Height</param>
+        /// <param name="rectangles">An array of rectangles we work with</param>
+        private static void CreateRectangle(ref int i, ref Rectangle[] rectangles)
+        {
+            string s;
+            int tempTopLeftX;
+            int tempTopLeftY;
+            int tempWidth;
+            int tempHeight;
+            ConsIO.WriteLine($"Enter for rectangle {i + 1}:\n");
+            EnterInt("\r top left X: ", out tempTopLeftX);
+            EnterInt("\r top left Y: ", out tempTopLeftY);
+            EnterIntPositive("\r Width: ", out tempWidth);
+            EnterIntPositive("\r Height: ", out tempHeight);
+            rectangles[i] = new Rectangle(tempTopLeftX, tempTopLeftY, tempWidth, tempHeight);
+            while (WindowChecker.RectanglesAreInWindow(Rectangle.OffsetHorizontal, Rectangle.OffsetVertical, rectangles.Take(i + 1).ToArray()) == false)
+            {
+                ConsIO.WriteLine($"Current Rectangle {i + 1} is out of our bounds. Try one more time.");
+                CreateRectangle(ref i, ref rectangles);
+            }
+        }
+
+        /// <summary>
+        /// Resizes rectangle (and redraws all) after asking number of rectangle,
+        /// offsets along X and Y axises. If it will be out of the bounds
+        /// you will be asked to set new values before resizing.
+        /// </summary>
+        /// <param name="i">Index of array element</param>
+        /// <param name="rects">An array of rectangles</param>
+        /// <param name="dX">Distance to move along X</param>
+        /// <param name="dY">Distance to move along Y</param>
+        private static void ResizeRectangle(ref Rectangle[] rects)
+        {
+            string s;
+            int i, dX, dY;
+            string vertex;
+            int LowerBound = rects.GetLowerBound(0) + 1;
+            int UpperBound = rects.GetUpperBound(0) + 1;
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rEnter number of rectangle you want to Resize:  ", out i);
+            i = Validators.GetCorrectIndexInsideBounds(i, ref LowerBound, ref UpperBound) - 1;
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+
+            vertex = EnterVertex();
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rEnter dX:  ", out dX);
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rEnter dY:  ", out dY);
+            rects[i].Resize(vertex, dX, dY);
+            while (WindowChecker.RectanglesAreInWindow(Rectangle.OffsetHorizontal, Rectangle.OffsetVertical, rects) == false)
+            {
+                rects[i].Resize(vertex, -dX, -dY);
+                ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+                ConsIO.Write("\rWe are going outside the bounds. Enter new values for ");
+                EnterInt("dX:  ",out dX);
+                ConsIO.SetCursorPosition(0, ConsIO.WindowHeight - Rectangle.OffsetBottom);
+                ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+                EnterInt("  dY:  ", out dY);
+                ResizeRectangle(ref rects);
+            }
+            ConsIO.Clear();
+            foreach (var rect in rects)
+            {
+                ConsIO.WriteLine($"{rect.X},{rect.Y},{rect.Width},{rect.Height}");
+            }
+            
+        }
+
+        /// <summary>
+        /// Returns string with correct value that corresponds to
+        /// names of vertexes: TL - top left, TR - top right,
+        /// BL - bottom left, BR - bottom right.
+        /// If entered incorrect value
+        /// you will be asked to enter new.
+        /// </summary>
+        /// <returns></returns>
+        private static string EnterVertex()
+        {
+            string s;
+            string[] vertexes = { "TL", "TR", "BL", "BR" };
+            ConsIO.Write("\rEnter vertex Top left (TL), Top right (TR)," +
+                         "\nBottom left (BL), Bottom right (BR):  ");
+            s = ConsIO.ReadLine();
+            while (Validators.IsCorrectStringValue(ref s, vertexes) == false)
+            {
+                ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+                ConsIO.Write("\rEntered incorrect value! Allowed only TL,TR, BL, BR:  ");
+                s = ConsIO.ReadLine();
+                ConsIO.CheckForExitTask(ref s);
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        /// Displays specified string in current line and
+        /// gets correct integer.
+        /// If entered incorrect value
+        /// you will be asked to enter new.
+        /// </summary>
+        /// <param name="description">String that have to be displayed</param>
+        /// <param name="result"></param>
+        private static void EnterInt(string description, out int result)
+        {
+            ConsIO.Write(description);
+            description = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref description);
+            result = Validators.GetIntNumber(description);
+        }
+        /// <summary>
+        /// Displays specified string in current line and
+        /// gets correct positive integer.
+        /// If entered incorrect value
+        /// you will be asked to enter new.
+        /// </summary>
+        /// <param name="description">String that have to be displayed</param>
+        /// <param name="result"></param>
+        private static void EnterIntPositive(string description, out int result)
+        {
+            ConsIO.Write(description);
+            description = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref description);
+            result = Validators.GetIntPositiveNumber(description);
+        }
+
+        /// <summary>
+        /// Moves rectangle (and redraws all) after asking number of rectangle,
+        /// offsets along X and Y axises. If it will be out of the bounds
+        /// you will be asked to set new values before moving.
+        /// </summary>
+        /// <param name="rects">An array of rectangles we work with</param>
+        private static void MoveRectangle(ref Rectangle[] rects)
+        {
+            string s;
+            int i, dX, dY;
+            int LowerBound = rects.GetLowerBound(0) + 1;
+            int UpperBound = rects.GetUpperBound(0) + 1;
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rEnter number of rectangle you want to Move:  ", out i);
+            i = Validators.GetCorrectIndexInsideBounds(i, ref LowerBound, ref UpperBound) - 1;
+            
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rFor rectangle you want to move enter dX:  ", out dX);
+            ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+            EnterInt("\rEnter dY:  ", out dY);
+            rects[i].Move(dX, dY, 0);
+            while (WindowChecker.RectanglesAreInWindow(Rectangle.OffsetHorizontal, Rectangle.OffsetVertical, rects) == false)
+            {
+                rects[i].Move(-dX, -dY, 0);
+                ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+                EnterInt("\rWe are going outside the bounds. Enter new values for dX:  ", out dX);
+                ConsIO.SetCursorPosition(0, ConsIO.WindowHeight - Rectangle.OffsetBottom);
+                ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
+                EnterInt("\r  for dY:  ", out dY);
+                MoveRectangle(ref rects);
+            }
+            ConsIO.Clear();
+            foreach (var rect in rects)
+            {
+                ConsIO.WriteLine($"{rect.X},{rect.Y},{rect.Width},{rect.Height}");
+            }
+        }
+
 
         public static class WindowChecker
         {
@@ -301,7 +405,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             }
         }
         
-        public class Rectangle : IDrawable
+        public class Rectangle : IDrawable, IMovable
         {
             public bool DrawFrom00;
             public static int LeftOffsetX = 0;
@@ -318,19 +422,14 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             private static int _absMinX;
             private static Rectangle[] _tempRects;
 
-            private int x;
-            private int y;
-            private int width;
-            private int height;
-
             #region For Smallest rectangle from Both rectangles
 
             private static int _width1;
             private static int _height1;
             private static int _width2;
             private static int _height2;
-            private static int _area1;
-            private static int _area2;
+            //private static int _area1;
+            //private static int _area2;
             private static int _tempValue;
             private static int _tempWidth;
             private static int _tempHeight;
@@ -342,8 +441,15 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             private static int _smWidth;
             private static int _smHeight;
             private static int _smArea;
-            
+
             #endregion
+
+            private int x;
+            private int y;
+            private int width;
+            private int height;
+
+            
 
             #region Properties
 
@@ -436,11 +542,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
 
 
-            /// <summary>
-            /// Initializes a new blank instance of the "Rectangle" class
-            /// </summary>
-            private Rectangle() { }
-
+            
             /// <summary>
             /// Initializes a new instance of the "Rectangle" class with the
             /// specified location and size.
@@ -456,6 +558,11 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 this.width = width;
                 this.height = height;
             }
+
+            /// <summary>
+            /// Initializes a new blank instance of the "Rectangle" class
+            /// </summary>
+            private Rectangle() { }
 
             /// <summary>
             /// Creates a new "Rectangle" with the specified location and size.
@@ -474,112 +581,16 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             }
 
             /// <summary>
-            /// Creates new rectangle and checks is it inside our limits of window
-            /// </summary>
-            /// <param name="i">Index of array element</param>
-            /// <param name="tempTopLeftX">Top left X coordinate</param>
-            /// <param name="tempTopLeftY">Top left Y coordinate</param>
-            /// <param name="tempWidth">Width</param>
-            /// <param name="tempHeight">Height</param>
-            /// <param name="rectangles">An array of rectangles we work with</param>
-            public static void Create(ref int i, ref int tempTopLeftX, ref int tempTopLeftY, ref int tempWidth, ref int tempHeight, ref Rectangle[] rectangles)
-            {
-                string s;
-                ConsIO.WriteLine($"Enter for rectangle {i + 1}:\n top left X:");
-                s = ConsIO.ReadLine();
-                tempTopLeftX = GetIntNumber(s);
-                ConsIO.WriteLine(" top left Y:");
-                s = ConsIO.ReadLine();
-                tempTopLeftY = GetIntNumber(s);
-                ConsIO.WriteLine(" Width:");
-                s = ConsIO.ReadLine();
-                tempWidth = GetIntPositiveNumber(s);
-                ConsIO.WriteLine(" Height:");
-                s = ConsIO.ReadLine();
-                tempHeight = GetIntPositiveNumber(s);
-                rectangles[i] = new Rectangle(tempTopLeftX, tempTopLeftY, tempWidth, tempHeight);
-                //GetBounds(ref _xBoundLeft, ref _xBoundRight, ref _yBoundTop, ref _yBoundBottom, rectangles.Take(i + 1).ToArray());
-                while (WindowChecker.RectanglesAreInWindow(OffsetHorizontal, OffsetVertical, rectangles.Take(i + 1).ToArray()) ==false)
-                {
-                    ConsIO.WriteLine($"Current Rectangle {i+1} is out of our bounds. Try one more time.");
-                    Create(ref i, ref tempTopLeftX, ref tempTopLeftY, ref tempWidth, ref tempHeight, ref rectangles);
-                }
-            }
-
-            /// <summary>
-            /// Resize and draw rectangles after resizing one of them
-            /// if we are not out of our boundaries.
+            /// Moves rectangle.
             /// </summary>
             /// <param name="i">Index of array element</param>
             /// <param name="rects">An array of rectangles</param>
             /// <param name="dX">Distance to move along X</param>
             /// <param name="dY">Distance to move along Y</param>
-            public static void Resize(int i, ref Rectangle[] rects, int dX, int dY = 0)
+            public void Move(int dX, int dY = 0, int dZ=0)
             {
-                string s;
-                _tempRects = (Rectangle[])rects.Clone();
-                _tempRects[i].Width += dX;
-                _tempRects[i].Height += dY;
-                while (WindowChecker.RectanglesAreInWindow(OffsetHorizontal, OffsetVertical, _tempRects)==false)
-                {
-                    ConsIO.ClearBottom(ref OffsetBottom);
-                    ConsIO.Write("\rWe are going outside the bounds. Enter new values for dX:  ");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                    dX = GetIntNumber(s);
-                    ConsIO.SetCursorPosition(0, ConsIO.WindowHeight - OffsetBottom);
-                    ConsIO.Write("                                                                            ");
-                    ConsIO.Write("\r  for dY:");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                    dY = GetIntNumber(s);
-                    Resize(i, ref rects, dX, dY);
-                }
-                rects[i] = _tempRects[i];
-                ConsIO.Clear();
-                foreach (var rect in rects)
-                {
-                    ConsIO.WriteLine($"{rect.X},{rect.Y},{rect.Width},{rect.Height}");
-                }
-                Rectangle.Draw(rects);
-            }
-
-            /// <summary>
-            /// Moves and draw rectangles after moving one of them
-            /// if we are not out of our boundaries.
-            /// </summary>
-            /// <param name="i">Index of array element</param>
-            /// <param name="rects">An array of rectangles</param>
-            /// <param name="dX">Distance to move along X</param>
-            /// <param name="dY">Distance to move along Y</param>
-            public static void Move(int i, ref Rectangle[] rects, int dX, int dY = 0)
-            {
-                string s;
-                _tempRects = (Rectangle[])rects.Clone();
-                _tempRects[i].X += dX;
-                _tempRects[i].Y += dY;
-                while (WindowChecker.RectanglesAreInWindow(OffsetHorizontal, OffsetVertical, _tempRects) == false)
-                {
-                    ConsIO.ClearBottom(ref OffsetBottom);
-                    ConsIO.Write("\rWe are going outside the bounds. Enter new values for dX:  ");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                    dX = GetIntNumber(s);
-                    ConsIO.SetCursorPosition(0, ConsIO.WindowHeight - OffsetBottom);
-                    ConsIO.Write("                                                                            ");
-                    ConsIO.Write("\r  for dY:");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                    dY = GetIntNumber(s);
-                    Resize(i, ref rects, dX, dY);
-                }
-                rects[i] = _tempRects[i];
-                ConsIO.Clear();
-                foreach (var rect in rects)
-                {
-                    ConsIO.WriteLine($"{rect.X},{rect.Y},{rect.Width},{rect.Height}");
-                }
-                Rectangle.Draw(rects);
+                this.X += dX;
+                this.Y += dY;
             }
             
             /// <summary>
@@ -764,8 +775,6 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                     _height2 = _tempValue;
                     _width2 = rect2.Height;
                 }
-                _area1 = rect1.Area;
-                _area2 = rect2.Area;
             }
 
             /// <summary>
@@ -837,6 +846,37 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             #endregion
 
+            
+            /// <summary>
+            /// Changes dimensions of rectangle for specified values.
+            /// </summary>
+            /// <param name="vertex">"TL" - top left, "TR" - top right,
+            /// "BL" - bottom left, "BR" - bottom right</param>
+            /// <param name="dX">Along X</param>
+            /// <param name="dY">Along Y</param>
+            public void Resize(string vertex, int dX, int dY)
+            {
+                if (vertex.ToLower()=="tl")
+                {
+                    X += dX;
+                    Y += dY;
+                }
+                else if (vertex.ToLower() == "tr")
+                {
+                    Width += dX;
+                    Y += dY;
+                }
+                else if(vertex.ToLower() == "bl")
+                {
+                    X += dX;
+                    Height += dY;
+                }
+                else if (vertex.ToLower() == "br")
+                {
+                    Width += dX;
+                    Height += dY;
+                }
+            }
 
 
             /// <summary>

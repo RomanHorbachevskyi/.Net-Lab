@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilites;
 using TestProject.Common.Core.Interfaces;
 using TestProject.TaskLibrary.Tasks.Lesson4;
 
@@ -16,46 +17,42 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
     {
         public void Run()
         {
-            int leftOffsetX;
-            int topOffsetY;
             int OffsetBottom=4;
-            int RectanglesCount;
             int windowWidth = ConsIO.WindowWidth;
             int windowHeight = ConsIO.WindowHeight;
-            int[] tempTopLeftX, tempTopLeftY, tempWidth, tempHeight;
-            //Parallelepiped[] parallelepipeds;
-            int xBoundLeft = 0, xBoundRight = 0, yBoundTop = 0, yBoundBottom = 0;
-            int dX, dY;
-            int index;
-
-            int tempX, tempY, tempW, tempH;
-
-            string s = "*** Now you are in Lesson8.OptTask1 ***\n    Draw Parallelepiped";
-            ConsIO.WriteLine(s);
-            //ConsIO.Write("How many rectangles do you want to draw?:  ");
-            //s = ConsIO.ReadLine();
-            //ConsIO.CheckForExitTask(ref s);
-            //RectanglesCount = GetIntPositiveNumber(s);
-
-            //tempTopLeftX = new int[RectanglesCount];
-            //tempTopLeftY = new int[RectanglesCount];
-            //tempWidth = new int[RectanglesCount];
-            //tempHeight = new int[RectanglesCount];
-            //parallelepipeds = new Parallelepiped[RectanglesCount];
-
-            ConsIO.WriteLine("\n***  Window dimensions: " + windowWidth + "; " + windowHeight + "  ***\n");
-
-            //for (int i = 0; i < RectanglesCount; i++)
-            //{
-            //    Parallelepiped.Create(ref i, ref tempTopLeftX[i], ref tempTopLeftY[i], ref tempWidth[i],
-            //        ref tempHeight[i], ref parallelepipeds);
-                
-            //}
-
             
-            Parallelepiped par = new Parallelepiped(0, 0, 0, 10 ,10, 10);
+            int X, Y, Z, Width, Height, Length;
 
             ConsIO.Clear();
+            string s = "*** Now you are in Lesson8.OptTask1 ***\n    Draw Parallelepiped";
+            ConsIO.WriteLine(s);
+            
+            ConsIO.WriteLine("\n***  Window dimensions: " + windowWidth + "; " + windowHeight + "  ***\n");
+
+            ConsIO.Write("Enter coordinates and dimensions of parallelepiped.\n  X: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            X = Validators.GetIntNumber(s);
+            ConsIO.Write("  Y: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            Y = Validators.GetIntNumber(s);
+            ConsIO.Write("  Z: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            Z = Validators.GetIntNumber(s);
+            ConsIO.Write("  Width: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            Width = Validators.GetIntNumber(s);
+            ConsIO.Write("  Length: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            Length = Validators.GetIntNumber(s);
+            ConsIO.Write("  Height: ");
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            Height = Validators.GetIntNumber(s);
 
             Parallelepiped.LeftOffsetX = 11;
             Parallelepiped.TopOffsetY = 3;
@@ -63,146 +60,65 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             Parallelepiped.OffsetVertical = Parallelepiped.TopOffsetY + OffsetBottom;
             Parallelepiped.OffsetBottom = OffsetBottom;
 
-            ConsIO.WriteLine("\n\n\n");
-            //foreach (var rect in parallelepipeds)
-            {
-                ConsIO.WriteLine($"{par.X},{par.Y},{par.Z},{par.Width},{par.Length},{par.Height}");
-            }
-            par.DrawFrom00 = true;
+            WindowChecker.ParallelepipedIsInWindow(Parallelepiped.OffsetHorizontal, Parallelepiped.OffsetVertical,
+                Width, Length, Height);
+
+            Parallelepiped par = new Parallelepiped(X, Y, Z, Width ,Length, Height);
+
+            ConsIO.Clear();
+
+            ConsIO.WriteLine($"Parallelepiped has X={par.X}, Y={par.Y}, Z={par.Z}, " +
+                             $"Width={par.Width}, Length={par.Length}, Height={par.Height}");
             par.Draw();
 
-            //Parallelepiped.Draw(parallelepipeds);
-            
-            //WhatToDo(ref OffsetBottom, ref parallelepipeds);
-
             ConsIO.ClearBottom(ref OffsetBottom);
-
-            //ConsIO.Clear();
-
-            ConsIO.ReadLine();
-
-            
         }
-
-
-        private static void WhatToDo(ref int offsetBottom, ref Parallelepiped[] parallelepipeds)
-        {
-            string s;
-            int index;
-            int dX, dY;
-            ConsIO.ClearBottom(ref offsetBottom);
-            ConsIO.Write($"What to do now? [M]ove rectangle, [R]esize or [Q]uit?:  ");
-            s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
-
-            if (s.ToLower() == "m")
-            {
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = Task1.GetIntPositiveNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter values for dX:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = Task1.GetIntNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\r  for dY:");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dY = Task1.GetIntNumber(s);
-                //Parallelepiped.Move(index - 1, ref parallelepipeds, dX, dY);
-            }
-            else if (s.ToLower() == "r")
-            {
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter number of rectangle:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                index = Task1.GetIntPositiveNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\rEnter values for dX:  ");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dX = Task1.GetIntNumber(s);
-                ConsIO.ClearBottom(ref offsetBottom);
-                ConsIO.Write("\r  for dY:");
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                dY = Task1.GetIntNumber(s);
-                //Parallelepiped.Resize(index - 1, ref parallelepipeds, dX, dY);
-            }
-            
-            
-            WhatToDo(ref offsetBottom, ref parallelepipeds);
-        }
-
+        
         
         public static class WindowChecker
         {
             /// <summary>
-            /// Checks if rectangle is inside current Window
+            /// Checks if parallelepiped is inside current Window
             /// </summary>
             /// <param name="offsetHorizontal"></param>
             /// <param name="offsetVertical"></param>
-            /// <param name="rec"></param>
+            /// <param name="par"></param>
             /// <returns></returns>
-            public static bool RectangleIsInWindow(int offsetHorizontal, int offsetVertical, Parallelepiped rec)
+            public static bool ParallelepipedIsInWindow(int offsetHorizontal, int offsetVertical, Parallelepiped par)
             {
-                return (rec.Height < ConsIO.WindowHeight - offsetVertical) && (rec.Width < ConsIO.WindowWidth - offsetHorizontal);
+                return (par.Height + par.Length < ConsIO.WindowHeight - offsetVertical) && 
+                       (par.Height + par.Width < ConsIO.WindowWidth - offsetHorizontal);
             }
 
             /// <summary>
-            /// Checks if rectangle is inside current Window
+            /// Checks if parallelepiped is inside current Window
             /// </summary>
             /// <param name="offsetHorizontal"></param>
             /// <param name="offsetVertical"></param>
-            /// <param name="width"></param>
-            /// <param name="height"></param>
+            /// <param name="width">Along X</param>
+            /// <param name="length">Along Y</param>
+            /// <param name="height">Along Z</param>
             /// <returns></returns>
-            public static bool RectangleIsInWindow(int offsetHorizontal, int offsetVertical, int width, int height)
+            public static bool ParallelepipedIsInWindow(int offsetHorizontal, int offsetVertical, int width, int length, int height)
             {
-                return (height < ConsIO.WindowHeight - offsetVertical) && (width < ConsIO.WindowWidth - offsetHorizontal);
+                return (height + length < ConsIO.WindowHeight - offsetVertical) && 
+                       (width + height < ConsIO.WindowWidth - offsetHorizontal);
             }
 
-            /// <summary>
-            /// Checks if all rectangles are inside current Window (based on coordinates)
-            /// </summary>
-            /// <param name="offsetHorizontal"></param>
-            /// <param name="offsetVertical"></param>
-            /// <param name="rects">An array of rectangles</param>
-            /// <returns></returns>
-            public static bool RectanglesAreInWindow(int offsetHorizontal, int offsetVertical, params Parallelepiped[] rects)
-            {
-                int x1 = 0;
-                int x2 = 0;
-                int y1 = 0;
-                int y2 = 0;
-                
-                //Parallelepiped.GetBounds(ref x1, ref x2, rects);
-                int tempWidth = x2-x1;
-                int tempHeight = y2-y1;
-                return (tempHeight < ConsIO.WindowHeight - offsetVertical) && (tempWidth < ConsIO.WindowWidth - offsetHorizontal);
-            }
         }
         
         public class Parallelepiped : IDrawable
         {
-            public bool DrawFrom00;
             public static int LeftOffsetX = 0;
             public static int TopOffsetY = 0;
             public static int OffsetHorizontal = 0;
             public static int OffsetVertical = 0;
-            public static int OffsetBottom;
-            public static readonly Parallelepiped Empty = new Parallelepiped();
+            public static int OffsetBottom = 4;
+            private static int _Y;
+            private static int _absY;
+            private static int _X;
+            private static int _absX;
 
-            private static int _xBoundLeft = 0, _xBoundRight = 0, _yBoundTop = 0, _yBoundBottom = 0;
-            private static int _minY;
-            private static int _absMinY;
-            private static int _minX;
-            private static int _absMinX;
-            private static Parallelepiped[] _tempRects;
 
             private int x;
             private int y;
@@ -211,33 +127,12 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             private int height;
             private int length;
 
-            #region For Smallest rectangle from Both rectangles
-
-            private static int _width1;
-            private static int _height1;
-            private static int _width2;
-            private static int _height2;
-            private static int _area1;
-            private static int _area2;
-            private static int _tempValue;
-            private static int _tempWidth;
-            private static int _tempHeight;
-            private static int _tempArea;
-            private static int _firstWidth;
-            private static int _firstHeight;
-            private static int _secondWidth;
-            private static int _secondHeight;
-            private static int _smWidth;
-            private static int _smHeight;
-            private static int _smArea;
-            
-            #endregion
 
             #region Properties
 
             /// <summary>
             /// Gets or sets the x-coordinate of the upper-left corner
-            /// of the rectangular region defined by this "Rectangle"
+            /// of the rectangular region defined by this "Parallelepiped"
             /// </summary>
             public int X
             {
@@ -247,7 +142,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             /// <summary>
             /// Gets or sets the y-coordinate of the upper-left corner
-            /// of the rectangular region defined by this "Rectangle"
+            /// of the rectangular region defined by this "Parallelepiped"
             /// </summary>
             public int Y
             {
@@ -257,7 +152,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             /// <summary>
             /// Gets or sets the z-coordinate of the upper-left corner
-            /// of the rectangular region defined by this "Rectangle"
+            /// of the rectangular region defined by this "Parallelepiped"
             /// </summary>
             public int Z
             {
@@ -267,7 +162,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             /// <summary>
             /// Gets or sets width of the rectangular
-            /// region defined by this "Rectangle"
+            /// region defined by this "Parallelepiped"
             /// </summary>
             public int Width
             {
@@ -276,8 +171,8 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             }
 
             /// <summary>
-            /// Gets or sets height of the rectangular
-            /// region defined by this "Rectangle"
+            /// Gets or sets height of the parallelepiped
+            /// defined by this "Parallelepiped"
             /// </summary>
             public int Height
             {
@@ -295,62 +190,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 set { length = value; }
             }
 
-            /// <summary>
-            /// Gets the x-coordinate of the upper-left corner
-            /// of the rectangular region defined by this "Rectangle"
-            /// </summary>
-            public int Left
-            {
-                get { return X; }
-            }
-
-            /// <summary>
-            /// Gets the y-coordinate of the upper-left corner
-            /// of the rectangular region defined by this "Rectangle"
-            /// </summary>
-            public int Top
-            {
-                get { return Y; }
-            }
-
-            /// <summary>
-            /// Gets the x-coordinate of the lower-right corner
-            /// of the rectangular region defined by this "Rectangle"
-            /// </summary>
-            public int Right
-            {
-                get { return X + Width; }
-            }
-
-            /// <summary>
-            /// Gets the y-coordinate of the lower-right corner
-            /// of the rectangular region defined by this "Rectangle"
-            /// </summary>
-            public int Bottom
-            {
-                get { return Y + Height; }
-            }
-
-            /*
-            /// <summary>
-            /// Gets area of rectangle
-            /// </summary>
-            public int Area
-            {
-                get { return Width * Height; }
-            }
-            */
 
             #endregion
 
-
-
-
-            /// <summary>
-            /// Initializes a new blank instance of the "Rectangle" class
-            /// </summary>
-            private Parallelepiped() { }
-
+            
             /// <summary>
             /// Initializes a new instance of the "Parallelepiped" class with the
             /// specified location and size.
@@ -390,42 +233,23 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                     bottom - top,
                     end-start);
             }
-
             
-            /// <summary>
-            /// Gets bounds of the space needed for entered rectangles
-            /// </summary>
-            /// <param name="x1">Left</param>
-            /// <param name="x2">Right</param>
-            /// <param name="y1">Top in console window (y1 smaller y2)</param>
-            /// <param name="y2">Bottom in console window</param>
-            /// <param name="rects"></param>
-            public static void GetBounds(ref int width, ref int height, Parallelepiped par)
-            {
-                width = par.Width + par.Height;
-                height = par.Length + par.Height;
-            }
 
             #region Drawing parallelepiped
 
             /// <summary>
-            /// Draws only current Rectangle.
+            /// Draws only current Parallelepiped.
             /// </summary>
             public void Draw()
             {
+                SetCoordsTo0(this);
                 // Drawing in the current view
-                if (DrawFrom00)
-                {
-                    DrawInView(this);
-                }
-                // Drawing in the last line
-                else
-                {
-                    //DrawInLastLine(this);
-                }
+                DrawInView(this);
+                ResetCoordsFrom0(this);
             }
+            
             /// <summary>
-            /// Draws specified rectangle in the view (cursor at 0,0 + offsets)
+            /// Draws specified parallelepiped in the view (cursor at 0,0 + offsets)
             /// </summary>
             /// <param name="par"></param>
             private void DrawInView(Parallelepiped par)
@@ -433,51 +257,14 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 DrawOnStart(par, LeftOffsetX+Height, TopOffsetY);
                 DrawHeight(par);
                 DrawOnEnd(par);
-
-                //for (int i = 0; i <= par.Height; i++)
-                //{
-                //    for (int j = 0; j <= par.Width; j++)
-                //    {
-                //        if (i == 0)
-                //        {
-                //            ConsIO.SetCursorPosition(LeftOffsetX + par.X + j, TopOffsetY + par.Y + i);
-                //            if (j == 0)
-                //            {
-                //                ConsIO.Write("┌"); //"┌" "╔"
-                //            }
-                //            if (j == par.Width )
-                //            {
-                //                ConsIO.Write("┐"); //"┐" "╗"
-                //            }
-                //            else
-                //            {
-                //                ConsIO.Write("─"); //"─" "═"
-                //            }
-                //        }
-                //        else if (i == par.Height )
-                //        {
-                //            ConsIO.SetCursorPosition(LeftOffsetX + par.X + j, TopOffsetY + par.Y + i);
-                //            if (j == 0) ConsIO.Write("└"); //"└" "╚"
-                //            if (j == par.Width ) ConsIO.Write("┘"); //"┘" "╝"
-                //            else ConsIO.Write("─"); //"─" "═"
-                //        }
-                //        else
-                //        {
-                //            if (j == 0)
-                //            {
-                //                ConsIO.SetCursorPosition(LeftOffsetX + par.X + j, TopOffsetY + par.Y + i);
-                //                ConsIO.Write("│"); //"│" "║"
-                //            }
-                //            if (j == par.Width )
-                //            {
-                //                ConsIO.SetCursorPosition(LeftOffsetX + par.X + j, TopOffsetY + par.Y + i);
-                //                ConsIO.Write("│"); //"│" "║"
-                //            }
-                //        }
-                //    }
-                //}
             }
-
+            
+            /// <summary>
+            /// Draws bottom side (smaller Z) of a parallelepiped.
+            /// </summary>
+            /// <param name="par"></param>
+            /// <param name="tempOffsetX"></param>
+            /// <param name="tempOffsetY"></param>
             private void DrawOnStart(Parallelepiped par, int tempOffsetX, int tempOffsetY)
             {
                 for (int i = 0; i <= par.Length; i++)
@@ -523,7 +310,11 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                     }
                 }
             }
-
+            
+            /// <summary>
+            /// Draws top side (greater Z) of a parallelepiped.
+            /// </summary>
+            /// <param name="par"></param>
             private void DrawOnEnd(Parallelepiped par)
             {
                 for (int i = 0; i <= par.Length; i++)
@@ -532,7 +323,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                     {
                         if (i == 0)
                         {
-                            ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + Height + i);
+                            ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + i);
                             if (j == 0)
                             {
                                 ConsIO.Write("┌"); //"┌" "╔"
@@ -548,7 +339,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                         }
                         else if (i == par.Length)
                         {
-                            ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + Height + i);
+                            ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + i);
                             if (j == 0) ConsIO.Write("└"); //"└" "╚"
                             if (j == par.Width) ConsIO.Write("┘"); //"┘" "╝"
                             else ConsIO.Write("─"); //"─" "═"
@@ -557,35 +348,89 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                         {
                             if (j == 0)
                             {
-                                ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + Height + i);
+                                ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + i);
                                 ConsIO.Write("│"); //"│" "║"
                             }
                             if (j == par.Width)
                             {
-                                ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + Height + i);
+                                ConsIO.SetCursorPosition(LeftOffsetX + j, TopOffsetY + par.Y + i);
                                 ConsIO.Write("│"); //"│" "║"
                             }
                         }
                     }
                 }
             }
-
+            
+            /// <summary>
+            /// Draws edges (from z0 to z1) of a parallelepiped.
+            /// </summary>
+            /// <param name="par"></param>
             private void DrawHeight(Parallelepiped par)
             {
                 for (int i = 1; i < par.Height; i++)
                 {
-                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height -i, TopOffsetY + par.Y + i);
+                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height -i, TopOffsetY + i);
                     ConsIO.Write("/");
-                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height + par.Width - i, TopOffsetY + par.Y + i);
+                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height + par.Width - i, TopOffsetY + i);
                     ConsIO.Write("/");
-                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height - i, TopOffsetY + par.Y + par.Length + i);
+                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height - i, TopOffsetY + par.Length + i);
                     ConsIO.Write("/");
-                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height + par.Width - i, TopOffsetY + par.Y + par.Length + i);
+                    ConsIO.SetCursorPosition(LeftOffsetX + par.Height + par.Width - i, TopOffsetY + par.Length + i);
                     ConsIO.Write("/");
                 }
             }
-            
+
             #endregion
+
+            /// <summary>
+            /// "Moves" parallelepiped for drawing them from 0,0 of outstream.
+            /// </summary>
+            /// <param name="par">An array of rectangles</param>
+            private static void SetCoordsTo0(Parallelepiped par)
+            {
+                // Setting coordinates to start from 0,0
+                _Y = par.Y;
+                if (_Y >= 0)
+                {
+                    par.Y -= _absY;
+                }
+                else
+                {
+                    par.Y += _absY;
+                }
+                if (_X >= 0)
+                {
+                    par.X -= _absX;
+                }
+                else
+                {
+                    par.X += _absX;
+                }
+            }
+            /// <summary>
+            /// "Moves" parallelepiped to their original position.
+            /// </summary>
+            /// <param name="par">An array of rectangles</param>
+            private static void ResetCoordsFrom0(Parallelepiped par)
+            {
+                // Resetting coordinates to original value
+                if (_Y >= 0)
+                {
+                    par.Y += _absY;
+                }
+                else
+                {
+                    par.Y -= _absY;
+                }
+                if (_X >= 0)
+                {
+                    par.X += _absX;
+                }
+                else
+                {
+                    par.X -= _absX;
+                }
+            }
         }
 
     }

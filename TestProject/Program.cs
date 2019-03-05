@@ -58,9 +58,8 @@ namespace TestProject
             };
             
             Console.WriteLine("***** Instructions *****");
-            Console.WriteLine("When you are in the Task, to Quit testing press \"q\" or \"b\".\n" +
-                              "To proceed next press 'Enter' key.");
-            Console.ReadLine();
+            Console.WriteLine("When you are in the Task, to Quit testing press \"q\" or \"b\".\n");
+            //Console.ReadLine();
 
             NextTask:
             Console.WriteLine("What do you want to do, check All Tasks (\"a\") or some specific (\"s\"):");
@@ -69,10 +68,7 @@ namespace TestProject
             //checking entered text(letter)
             while ((s != "a") & (s != "s"))
             {
-                if ((s == "q") | (s == "b"))
-                {
-                    Environment.Exit(0);
-                }
+                ConsIO.CheckForExitTask(ref s);
                 Console.WriteLine("Entered incorrect value.\nEnter \"q\" or \"a\" or \"s\"");
                 s = Console.ReadLine();
             }
