@@ -13,6 +13,8 @@ using TestProject.TaskLibrary.Tasks.Lesson4;
 using TestProject.TaskLibrary.Tasks.Lesson5;
 using TestProject.TaskLibrary.Tasks.Lesson6;
 using TestProject.TaskLibrary.Tasks.Lesson8;
+using TestProject.TaskLibrary.Tasks.Lesson9;
+using TestProject.TaskLibrary.Tasks.Lesson11;
 
 namespace TestProject
 {
@@ -54,7 +56,11 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson8.Task1(),
                 new TaskLibrary.Tasks.Lesson9.Task1_4(),
                 new TaskLibrary.Tasks.Lesson9.Task5(),
-                
+                new TaskLibrary.Tasks.Lesson11.Task1(),
+                new TaskLibrary.Tasks.Lesson11.Task2(),
+                new TaskLibrary.Tasks.Lesson11.Task3(),
+                new TaskLibrary.Tasks.Lesson11.Task4(),
+
             };
             
             Console.WriteLine("***** Instructions *****");
