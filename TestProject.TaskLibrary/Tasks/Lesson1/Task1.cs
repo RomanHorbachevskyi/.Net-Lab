@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TestProject.Common.Core.Interfaces;
+using TestProject.Common.Core.Classes;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson1
 {
@@ -9,13 +10,8 @@ namespace TestProject.TaskLibrary.Tasks.Lesson1
     {
         public void Run()
         {
-            /*Console.WriteLine("When you are in the Task, to Quit testing press \"q\", to break Task press \"b\".\n" +
-                              "To proceed next press any key");
-            Console.ReadLine();
-            Console.WriteLine("");
-            */
-            Console.WriteLine("*** Now you are in Lesson1.Task2 ***");
-            Console.WriteLine ("    Hello, world!\n");
+            ConsIO.WriteLine("*** Now you are in Lesson1.Task1 ***");
+            ConsIO.WriteLine ("    Hello, world!\n");
         }
     }
 }

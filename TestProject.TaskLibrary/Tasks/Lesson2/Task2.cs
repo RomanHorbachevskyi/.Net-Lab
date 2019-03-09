@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TestProject.Common.Core.Interfaces;
+using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson2
 {
@@ -10,12 +12,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
     {
         public void Run() // main method
         {
-            Console.WriteLine("*** Now you are in Lesson2.Task2 ***");
-            //Console.WriteLine("*** Select one of Tasks listed below ***");
-            Console.WriteLine("\n* Task2: Calculate 'Perimetr' and 'Area' of rectangle using Auto-implemented Properties" +
+            ConsIO.WriteLine("*** Now you are in Lesson2.Task2 ***");
+            ConsIO.WriteLine("\n* Task2: Calculate 'Perimeter' and 'Area' of rectangle using Auto-implemented Properties" +
                               "\n       Needed Top-Left and Bottom-Right coordinates");
 
-            
             // initializing Coordinates
             int TLX;
             int TLY;
@@ -23,104 +23,102 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             int BRY;
 
             NextTry:
-            TLX = 0;
-            TLY = 0;
-            BRX = 0;
-            BRY = 0;
-
             //setting coordinates for Rectangle
-            Console.WriteLine("Enter Top-Left coordinate (int) X: ");
-            string s = Console.ReadLine().ToLower();
-            Task1.SetCd(ref s, ref TLX);
-            Console.WriteLine("Enter Top-Left coordinate (int) Y: ");
-            s = Console.ReadLine().ToLower();
-            Task1.SetCd(ref s, ref TLY);
-            Console.WriteLine("Enter Bottom-Right coordinate (int) X: ");
-            s = Console.ReadLine().ToLower();
-            Task1.SetCd(ref s, ref BRX);
-            Console.WriteLine("Enter Bottom-Right coordinate (int) Y: ");
-            s = Console.ReadLine().ToLower();
-            Task1.SetCd(ref s, ref BRY);
+            ConsIO.WriteLine("Enter Top-Left coordinate (int) X: ");
+            TLX = Validators.GetIntNumber(ConsIO.ReadLine().ToLower());
+            ConsIO.WriteLine("Enter Top-Left coordinate (int) Y: ");
+            TLY = Validators.GetIntNumber(ConsIO.ReadLine().ToLower());
+            ConsIO.WriteLine("Enter Bottom-Right coordinate (int) X: ");
+            BRX = Validators.GetIntNumber(ConsIO.ReadLine().ToLower());
+            ConsIO.WriteLine("Enter Bottom-Right coordinate (int) Y: ");
+            BRY = Validators.GetIntNumber(ConsIO.ReadLine().ToLower());
 
             // checking for Zero length
             if ((TLX == BRX) | (TLY == BRY))
             {
-                Console.WriteLine("Wrong coordinates. Some side of rectangle has 0 length.");
+                ConsIO.WriteLine("Wrong coordinates. Some side of rectangle has 0 length.");
                 goto NextTry;
             }
-
+            
             //creating Rectangle instance
-            Rectangle2 rec=new Rectangle2(ref TLX,ref TLY,ref BRX,ref BRY);
-            rec.Perimeter();
-            rec.Area();
+            var rec=new Rectangle(TLX, TLY, BRX, BRY);
+
+            ConsIO.WriteLine("Rectangle with coordinates Top-Left X, Y: {0}, {1}", rec.TopLeftX, rec.TopLeftY);
+            ConsIO.WriteLine("and Bottom-Right X, Y: {0}, {1}", rec.BottomRightX, rec.BottomRightY);
+            ConsIO.WriteLine("has Perimeter: " + rec.PerimeterByProperties());
+            ConsIO.WriteLine("has Area: " + rec.AreaByProperties());
+            ConsIO.WriteLine();
         }
-
-        /*public void SetCd(ref string S, ref int Cd)
-        {
-            //setting Coordinates or Exit
-            if ((S == "q") | (S == "b"))
-            {
-                Environment.Exit(0);
-            }
-            //bool parsed= Int32.TryParse(s, out TLX);
-            while (!Int32.TryParse(S, out Cd))
-            {
-                Console.WriteLine("Entered incorrect value.\nEnter only digits: ");
-                S = Console.ReadLine().ToLower();
-                this.SetCd(ref S,ref Cd);
-            }
-        }*/
-
     }
 
-    public class Rectangle2
+    public partial class Rectangle
     {
         //auto-implemented properties
-        public int TLX { get; set; }
-        public int TLY { get; set; }
-        public int BRX { get; set; }
-        public int BRY { get; set; }
+        /// <summary>
+        /// Top left X coordinate.
+        /// </summary>
+        public int TopLeftX { get; set; }
+        /// <summary>
+        /// Top left Y coordinate.
+        /// </summary>
+        public int TopLeftY { get; set; }
+        /// <summary>
+        /// Bottom right X coordinate.
+        /// </summary>
+        public int BottomRightX { get; set; }
+        /// <summary>
+        /// Bottom right Y coordinate.
+        /// </summary>
+        public int BottomRightY { get; set; }
 
-
-        //(int tlx, int tly, int brx, int bry)
-        //private int TLX, TLY, BRX, BRY;
-
-        public Rectangle2(ref int tlx, ref int tly, ref int brx, ref int bry)
+        /// <summary>
+        /// Initializes new instance of Rectangle by defining Auto-Properties.
+        /// </summary>
+        /// <param name="topLeftX"></param>
+        /// <param name="topLeftY"></param>
+        /// <param name="bottomRightX"></param>
+        /// <param name="bottomRightY"></param>
+        public Rectangle(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY)
         {
-            TLX = tlx;
-            TLY = tly;
-            BRX = brx;
-            BRY = bry;
+            TopLeftX = topLeftX;
+            TopLeftY = topLeftY;
+            BottomRightX = bottomRightX;
+            BottomRightY = bottomRightY;
+            // fields
+            this.topLeftX = topLeftX;
+            this.topLeftY = topLeftY;
+            this.bottomRightX = bottomRightX;
+            this.bottomRightY = bottomRightY;
         }
-
-        public void Perimeter()
+        /// <summary>
+        /// Calculates an area of current rectangle
+        /// by using properties.
+        /// </summary>
+        public int PerimeterByProperties()
         {
-            int a = BRX - TLX;
+            int a = BottomRightX - TopLeftX;
             if (a < 0)
                 a *= -1;
-            int b = TLY - BRY;
+            int b = TopLeftY - BottomRightY;
             if (b < 0)
                 b *= -1;
-            Console.WriteLine("Rectangle with coordinates Top-Left X, Y: {0}, {1}",TLX,TLY);
-            Console.WriteLine("and Bottom-Right X, Y: {0}, {1}", BRX, BRY);
-            Console.WriteLine("has Perimeter: "+ (2 * (a + b)));
-            Console.WriteLine();
 
+            return 2 * (a + b);
         }
-
-        public void Area()
+        /// <summary>
+        /// Calculates an area of current rectangle by using auto-properties.
+        /// </summary>
+        /// <returns></returns>
+        public int AreaByProperties()
         {
-            int a = BRX - TLX;
+            var a = BottomRightX - TopLeftX;
             if (a < 0)
                 a *= -1;
-            int b = TLY - BRY;
+            var b = TopLeftY - BottomRightY;
             if (b < 0)
                 b *= -1;
-            Console.WriteLine("Rectangle with coordinates Top-Left X, Y: {0}, {1}", TLX, TLY);
-            Console.WriteLine("and Bottom-Right X, Y: {0}, {1}", BRX, BRY);
-            Console.WriteLine("has Area: " + (a * b));
-            Console.WriteLine();
+
+            return a * b;
         }
     }
-
 }

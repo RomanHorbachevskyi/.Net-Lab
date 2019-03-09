@@ -63,70 +63,63 @@ namespace TestProject
 
             };
             
-            Console.WriteLine("***** Instructions *****");
-            Console.WriteLine("When you are in the Task, to Quit testing press \"q\" or \"b\".\n");
-            //Console.ReadLine();
-
+            ConsIO.WriteLine("***** Instructions *****");
+            ConsIO.WriteLine("When you are in the Task, to Quit testing press \"q\" or \"b\".\n");
+            
             NextTask:
-            Console.WriteLine("What do you want to do, check All Tasks (\"a\") or some specific (\"s\"):");
-            string s = Console.ReadLine().ToLower();
+            ConsIO.WriteLine("What do you want to do, check All Tasks (\"a\") or some specific (\"s\"):");
+            string s = ConsIO.ReadLine().ToLower();
             
             //checking entered text(letter)
             while ((s != "a") & (s != "s"))
             {
                 ConsIO.CheckForExitTask(ref s);
-                Console.WriteLine("Entered incorrect value.\nEnter \"q\" or \"a\" or \"s\"");
-                s = Console.ReadLine();
+                ConsIO.WriteLine("Entered incorrect value.\nEnter \"q\" or \"a\" or \"s\"");
+                s = ConsIO.ReadLine();
             }
             
             //creating the array to make possible Task selection
-            string[] ATasks = new string[tasks.Length];
+            string[] tasksNames = new string[tasks.Length];
 
-            
             int i = 0;
-            if (s == "s")
+            switch (s)
             {
-                Console.WriteLine("\n*** There are {0} Tasks: ***", tasks.Length);
-                foreach (var task in tasks)
+                case "s":
                 {
-                    Console.WriteLine(i+ ":   "+ task.ToString());
-                    ATasks[i] = task.ToString();
-                    ++i;
-                    //task.ToString();
-                }
-                Console.WriteLine("\nChoose needed one:");
-                s = Console.ReadLine();
-                while ((!Int32.TryParse(s, out i)) | (i-1>tasks.Length))
-                {
-                    Console.WriteLine("Entered incorrect value.\nEnter only digits inside bounds: ");
-                    s = Console.ReadLine();
-                }
-
-                foreach (var task in tasks)
-                {
-                    if (ATasks[i] != task.ToString())
+                    ConsIO.WriteLine("\n*** There are {0} Tasks: ***", tasks.Length);
+                    foreach (var task in tasks)
                     {
-                        /*ATasks[i].ToString();
-                        task.ToString(); */
+                        ConsIO.WriteLine(i+ ":   "+ task);
+                        tasksNames[i] = task.ToString();
+                        ++i;
                     }
-                    else
+                    ConsIO.WriteLine("\nChoose needed one:");
+                    s = ConsIO.ReadLine();
+                    while ((!Int32.TryParse(s, out i)) | (i-1>tasks.Length))
                     {
+                        ConsIO.WriteLine("Entered incorrect value.\nEnter only digits inside bounds: ");
+                        s = ConsIO.ReadLine();
+                    }
+
+                    foreach (var task in tasks)
+                    {
+                        if (tasksNames[i] != task.ToString()) continue;
                         task.Run();
                         break;
                     }
-                }
 
-                goto NextTask;
-            }
-            else if (s == "a")
-            {
-                //Console.ReadLine();
-                foreach (var task in tasks)
+                    goto NextTask;
+                }
+                case "a":
                 {
-                    task.Run();
-                }
+                    foreach (var task in tasks)
+                    {
+                        task.Run();
+                    }
 
-                Console.ReadLine();
+                    ConsIO.ReadLine();
+                    break;
+                }
             }
         }
     }

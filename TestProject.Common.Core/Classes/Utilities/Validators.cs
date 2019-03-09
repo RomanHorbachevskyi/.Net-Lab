@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
-namespace TestProject.Common.Core.Classes.Utilites
+namespace TestProject.Common.Core.Classes.Utilities
 {
     public static class Validators
     {
@@ -41,6 +41,42 @@ namespace TestProject.Common.Core.Classes.Utilites
                 ConsIO.WriteLine("Entered incorrect value. Enter only integer numbers.");
                 s = ConsIO.ReadLine();
                 GetIntNumber(s);
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// Returns double number >0
+        /// </summary>
+        /// <param name="s">String to read number(parse) from</param>
+        /// <returns></returns>
+        public static double GetDoublePositiveNumber(string s)
+        {
+            ConsIO.CheckForExitTask(ref s);
+            double value;
+            while ((double.TryParse(s, out value) == false) || (value <= 0))
+            {
+                ConsIO.WriteLine("Entered incorrect value. Enter only positive double numbers.");
+                s = ConsIO.ReadLine();
+                GetDoublePositiveNumber(s);
+            }
+            return value;
+        }
+
+        /// <summary>
+        /// Returns double quantity (number)
+        /// </summary>
+        /// <param name="s">String to read number(parse) from</param>
+        /// <returns></returns>
+        public static double GetDoubleNumber(string s)
+        {
+            ConsIO.CheckForExitTask(ref s);
+            double value;
+            while ((double.TryParse(s, out value) == false))
+            {
+                ConsIO.WriteLine("Entered incorrect value. Enter only double numbers.");
+                s = ConsIO.ReadLine();
+                GetDoubleNumber(s);
             }
             return value;
         }

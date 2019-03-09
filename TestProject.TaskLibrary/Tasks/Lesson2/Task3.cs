@@ -4,58 +4,36 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TestProject.Common.Core.Interfaces;
+using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson2
 {
     public class Task3 : IRunnable
-    {   //calculate circle length and area
+    {   
 
-        public void Run() // main method
+        public void Run()
         {
-            Console.WriteLine("*** Now you are in Lesson2.Task3 ***");
-            Console.WriteLine("\n* Task3: Calculate 'Length' and 'Area' of circle using methods" +
+            string s;
+            int R;
+
+            ConsIO.WriteLine("*** Now you are in Lesson2.Task3 ***");
+            ConsIO.WriteLine("\n* Task3: Calculate 'Length' and 'Area' of circle using methods of instance." +
                               "\n       Needed Radius");
-
-            int R = 0;
-
-            NextTry:
             
             //setting Radius for Circle
-            Console.WriteLine("Enter Radius (int): ");
-            string s = Console.ReadLine().ToLower();
-            this.SetR(ref s);
-
-            R=Int32.Parse(s);
-            //checking for Zero length
-            if (R<=0)
-            {
-                Console.WriteLine("Wrong Radius.");
-                goto NextTry;
-            }
-
+            ConsIO.WriteLine("Enter Radius (int): ");
+            s = ConsIO.ReadLine().ToLower();
+            R = Validators.GetIntPositiveNumber(s);
+            
             //creating Rectangle instance
-            Circle crl=new Circle(ref R);
-            crl.Length(ref R);
-            crl.Area(ref R);
-        }
+            var crl=new Circle(ref R);
 
-        private void SetR(ref string R)
-        {
-            int r;
-            //setting Radius or Exit
-            if ((R == "q") | (R == "b"))
-            {
-                Environment.Exit(0);
-            }
-            //bool parsed= Int32.TryParse(R, out R);
-            while (!Int32.TryParse(R, out r) | (r <= 0))
-            {
-                Console.WriteLine("Entered incorrect value.\nEnter only positive digits: ");
-                R = Console.ReadLine().ToLower();
-                this.SetR(ref R);
-            }
+            ConsIO.WriteLine("Circle with Radius={1} has Length={0}", crl.Length(ref R), R);
+            ConsIO.WriteLine("Circle with Radius={1} has Area={0}", crl.Area(ref R), R);
+            ConsIO.WriteLine();
+            ConsIO.ReadLine();
         }
-
     }
 
     public class Circle
@@ -65,25 +43,39 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
 
         //auto-implemented properties
         public int R { get; set; }
-        
+
         //constructor
+        /// <summary>
+        /// Initializes an instance of class Circle with specified radius.
+        /// </summary>
+        /// <param name="r"></param>
         public Circle(ref int r)
         {
             R = r;
         }
-        public void Length(ref int r)
+
+        /// <summary>
+        /// Returns length of circle with specified radius.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public double Length(ref int r)
         {
             R = r;
-            Console.WriteLine("Circle with Radius={0} has Length=" + (2 * pi * r), r);
-            Console.WriteLine();
+
+            return (2 * pi * r);
         }
         
-        public void Area(ref int r)
+        /// <summary>
+        /// Returns area of circle with specified radius.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public double Area(ref int r)
         {
             R = r;
-            Console.WriteLine("Circle with Radius={0} has Area=" + (pi * r*r), r);
-            Console.WriteLine();
+
+            return (pi * r * r);
         }
     }
-
 }
