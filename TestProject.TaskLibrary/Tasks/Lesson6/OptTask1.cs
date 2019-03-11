@@ -14,7 +14,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
         {
 
             string s = "*** Now you are in Lesson6.OptTask1 ***";
-            s = s + "\n    Work with Dictionary";
+            s = s + "\n    Work with Dictionary. Checking at home an example from the lecture.";
             ConsIO.WriteLine(s);
             
             var dictionary=new Dictionary<MyClass,string>();
@@ -31,7 +31,6 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
             ConsIO.WriteLine("value is: " + dictionary[obj1]);
             ConsIO.WriteLine("value is: " + dictionary[obj3]);
 
-            //ConsIO.WriteLine();
             ConsIO.ReadLine();
         }
     }

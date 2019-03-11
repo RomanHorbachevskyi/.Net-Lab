@@ -11,31 +11,57 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
         public void Run()
         {
 
-            string s = "*** Now you are in Lesson4.Task1 ***";
+            string s = "*** Now you are in Lesson4.Task1 ***\n  Work with inheritance.\n";
+            s = s + "       Implement base class Figure with abstract method Draw();\n" +
+                "       Create classes Rectangle and Square (inherited from Figure)\n" +
+                "       with overloaded implementation of method Draw().";
             ConsIO.WriteLine(s);
-            Square sq=new Square();
+            var sq=new SquareByAbstract();
             sq.Draw();
-            Rectangle rc=new Rectangle();
+            var rc=new RectangleByAbstract();
             rc.Draw();
         }
     }
 
-    public abstract class Figure
+    public abstract partial class FigureAbstract
     {
+        /// <summary>
+        /// An abstract parameterless constructor to
+        /// initialize an instance of inherited class.
+        /// </summary>
+        protected FigureAbstract() { }
+
         public abstract void Draw();
 
     }
 
-    public class Square : Figure
+    public partial class SquareByAbstract : FigureAbstract
     {
+        /// <summary>
+        /// Initializes an empty instance of Square.
+        /// </summary>
+        public SquareByAbstract() { }
+        
+        /// <summary>
+        /// Prints name of the class Square
+        /// </summary>
         public override void Draw()
         {
             string s = "Drawing Square from class Square";
             ConsIO.WriteLine(s);
         }
     }
-    public class Rectangle : Figure
+
+    public partial class RectangleByAbstract : FigureAbstract
     {
+        /// <summary>
+        /// Initializes an empty instance of Rectangle.
+        /// </summary>
+        public RectangleByAbstract() { }
+
+        /// <summary>
+        /// Prints name of the class Rectangle.
+        /// </summary>
         public override void Draw()
         {
             string s = "Drawing Rectangle from class Rectangle";

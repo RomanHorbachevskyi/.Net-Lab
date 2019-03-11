@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tasks\Lesson8\Task1_rezerv.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TestProject.Common.Core\TestProject.Common.Core.csproj" />
   </ItemGroup>
 

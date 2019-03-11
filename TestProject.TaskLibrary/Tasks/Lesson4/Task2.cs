@@ -12,52 +12,64 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
     {
         public void Run()
         {
-            string s = "*** Now you are in Lesson4.Task2 ***";
+            string s = "*** Now you are in Lesson4.Task2 ***\n";
+            s = s + "       Using previous task add readonly properties X and Y to class Figure.\n" +
+                "   Add constructor with parameters to set these properties.";
             ConsIO.WriteLine(s);
-            Square42 sq = new Square42(10,10);
+            var sq = new SquareByAbstract(10,10);
             sq.Draw();
-            Rectangle42 rc = new Rectangle42(15,15);
+            var rc = new RectangleByAbstract(15,15);
             rc.Draw();
         }
     }
 
-    public abstract class Figure42
+    public abstract partial class FigureAbstract
     {
-        public abstract void Draw();
+        /// <summary>
+        /// X coordinate
+        /// </summary>
         public int X { get; private set; }
+
+        /// <summary>
+        /// Y coordinate.
+        /// </summary>
         public int Y { get; private set; }
 
-        protected Figure42(int x, int y)
+        /// <summary>
+        /// An abstract constructor to initialize an instance
+        /// of inherited class and set properties.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        protected FigureAbstract(int x, int y)
         {
             X = x;
             Y = y;
         }
     }
 
-    public class Square42 : Figure42
+    public partial class SquareByAbstract : FigureAbstract
     {
-        //private int x, y;
-
-        public Square42(int x, int y):base(x,y)
+        /// <summary>
+        /// Initializes new instance of Square.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public SquareByAbstract(int x, int y):base(x, y)
         {
             
         }
-        public override void Draw()
-        {
-            string s = "Drawing Square from class Square42";
-            ConsIO.WriteLine(s);
-        }
     }
-    public class Rectangle42 : Figure42
+    public partial class RectangleByAbstract : FigureAbstract
     {
-        public Rectangle42(int x, int y) : base(x, y)
+        /// <summary>
+        /// Initializes new instance of Rectangle.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public RectangleByAbstract(int x, int y) : base(x, y)
         {
 
-        }
-        public override void Draw()
-        {
-            string s = "Drawing Rectangle from class Rectangle42";
-            ConsIO.WriteLine(s);
         }
     }
 }

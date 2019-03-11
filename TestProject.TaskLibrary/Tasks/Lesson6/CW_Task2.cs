@@ -10,6 +10,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
     {
         public void Run()
         {
+            string s = "*** Now you are in Lesson6.CW_Task2 ***";
+            s = s + "\n    Checking how works example from lecture";
+            ConsIO.WriteLine(s);
+
             var alphabet=new SortedDictionary<string,int>();
             alphabet.Add("B",23);
             alphabet.Add("C", 11);
@@ -19,7 +23,5 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
 
             ConsIO.ReadLine();
         }
-
-
     }
 }

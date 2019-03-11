@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TestProject.Common.Core.Classes;
 using TestProject.Common.Core.Interfaces;
@@ -12,101 +10,143 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
     {
         public void Run()
         {
-            string s = "*** Now you are in Lesson4.Task3 ***";
+            var s = "*** Now you are in Lesson4.Task3 ***\n";
+            s = s + "       Using previous task elevate method Draw() into separate interface\n" +
+                "       IDrawable. Create method DrawAll() which calls correct method Draw().";
             ConsIO.WriteLine(s);
             s = "Doing method Draw()";
             ConsIO.WriteLine(s);
-            Square44 sq = new Square44(10, 10);
+            var sq = new SquareInterfaced(10, 10);
             sq.Draw();
-            Figure44 sq1 = new Figure44(5,5);
-            (sq1 as Figure44).Draw();
-            Rectangle44 rc = new Rectangle44(15, 15);
+            var fg = new FigureInterfaced(5,5);
+            fg.Draw();
+            var rc = new RectangleInterfaced(15, 15);
             rc.Draw();
             s = "Doing method DrawAll() in class Lesson4.Task4";
             ConsIO.WriteLine(s);
-            Task4.DrawAll(sq,rc,(sq1 as Figure44));
+            DrawAll(sq,rc, fg);
         }
         public static void DrawAll(params IDrawable[] array)
         {
-            int l;
-            string s;
             try
             {
-                l = array.Length;
-                foreach (IDrawable item in array)
+                foreach (var item in array)
                 {
-                    if (item is Square44)
+                    if (item is SquareInterfaced)
                         item.Draw();
-                    else if (item is Rectangle44)
+                    else if (item is RectangleInterfaced)
                         item.Draw();
                     else
                     {
-                        (item as Figure44).Draw();
+                        (item as FigureInterfaced).Draw();
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                s = "There is nothing to draw.";
-                ConsIO.WriteLine(s);
-
+                ConsIO.WriteLine("There is nothing to draw.");
             }
-
-
         }
-
     }
 
-    public interface IDrawable
+    
+    public class FigureInterfaced:IDrawable
     {
-        void Draw();
-    }
-    public class Figure44:IDrawable
-    {
-        public virtual void Draw()
+        /// <summary>
+        /// Initializes new instance of
+        /// FigureInterfaced
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public FigureInterfaced(int x, int y)
         {
-            string s = "Drawing Figure from class Figure44";
-            ConsIO.WriteLine(s);
+            X = x;
+            Y = y;
         }
 
+        /// <summary>
+        /// X coordinate
+        /// </summary>
         public int X { get; private set; }
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
         public int Y { get; private set; }
 
-        public Figure44(int x, int y)
+        /// <summary>
+        /// Print Figure from class FigureInterfaced
+        /// </summary>
+        public virtual void Draw()
         {
-            X = x;
-            Y = y;
-        }
-    }
-
-    public class Square44 : IDrawable
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public Square44(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-        public void Draw()
-        {
-            string s = "Drawing Square from class Square44";
+            string s = "Drawing Figure from class FigureInterfaced";
             ConsIO.WriteLine(s);
         }
     }
-    public class Rectangle44 : IDrawable
+
+    public class SquareInterfaced : IDrawable
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Rectangle44(int x, int y)
+        /// <summary>
+        /// Initializes new instance of
+        /// SquareInterfaced
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public SquareInterfaced(int x, int y)
         {
             X = x;
             Y = y;
         }
+
+        /// <summary>
+        /// X coordinate
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public int Y { get; set; }
+        
+
+        /// <summary>
+        /// Print SquareInterfaced
+        /// </summary>
         public void Draw()
         {
-            string s = "Drawing Rectangle from class Rectangle44";
+            string s = "Drawing Square from class SquareInterfaced";
+            ConsIO.WriteLine(s);
+        }
+    }
+    public class RectangleInterfaced : IDrawable
+    {
+        /// <summary>
+        /// Initializes new instance of
+        /// RectangleInterfaced
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public RectangleInterfaced(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        /// <summary>
+        /// X coordinate.
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// Y coordinate.
+        /// </summary>
+        public int Y { get; set; }
+
+        /// <summary>
+        /// Print RectangleInterfaced
+        /// </summary>
+        public void Draw()
+        {
+            string s = "Drawing Rectangle from class RectangleInterfaced";
             ConsIO.WriteLine(s);
         }
     }

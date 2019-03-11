@@ -10,71 +10,71 @@ namespace TestProject.TaskLibrary.Tasks.Lesson9
 {
     public class Task5 : IRunnable
     {
-        static readonly Random rndGen =new Random();
-        const int strsOnPage = 5;
-        const string strChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        static List<string> strElements;
+        const int LinesOnPage = 5;
+        const string CharsForString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        static List<string> _strElements;
 
         public void Run()
         {
-            string str = "*** Now you are in Lesson6.Task3 ***";
-            str = str + "\n    Work with List<T>, Part 3";
-            ConsIO.WriteLine(str);
             int strLength = 4;
             int strCount = 200;
             int pageToPrint = 0;
             int pagesCount;
-            //string tempStr;
 
-            strElements = new List<string>();
+            string str = "*** Now you are in Lesson9.Task5 ***";
+            str = str + "\n    Work with List<T>, LINQ, Part 5";
+            ConsIO.WriteLine(str);
+            
+            _strElements = new List<string>();
 
-            // Adding rundom strings into the list strElements.
+            // Adding random strings into the list strElements.
             for (int i = 0; i < strCount; i++)
             {
-                strElements.Add(Lesson6.Task3.GetRundomStr(strChars,strLength));
+                _strElements.Add(Lesson6.Task3.GetRandomStr(CharsForString, strLength));
             }
 
             ConsIO.WriteLine($"Old count of elements (before deleting duplicates): {strCount}");
 
             // Removing duplicate elements from the list strElements.
-            strElements.Distinct();
+            _strElements.Distinct();
             
-            ConsIO.WriteLine($"Count before deleting elements with first 'Z': {strElements.Count}");
+            ConsIO.WriteLine($"Count before deleting elements with first 'Z': {_strElements.Count}");
 
             // Removing elements that begin from 'Z'.
-            strElements.RemoveAll(s => s[0] == 'Z');
+            _strElements.RemoveAll(s => s[0] == 'Z');
 
-            ConsIO.WriteLine($"New count of elements: {strElements.Count}");
+            ConsIO.WriteLine($"New count of elements: {_strElements.Count}");
 
-            ConsIO.WriteLine($"First and last elements before sorting: {strElements.First()}; {strElements.Last()}");
+            ConsIO.WriteLine($"First and last elements before sorting: {_strElements.First()}; {_strElements.Last()}");
 
-            var sortedElements = strElements.OrderByDescending(strE => strE).ToList();
+            var sortedElements = _strElements.OrderByDescending(element => element).ToList();
 
             ConsIO.WriteLine($"First and last elements after sorting: {sortedElements.First()}; {sortedElements.Last()}\n");
 
             #region Printing from the list
             
-            if (strElements.Count%strsOnPage==0)
+            if (_strElements.Count % LinesOnPage == 0)
             {
-                pagesCount = strElements.Count / strsOnPage;
+                pagesCount = _strElements.Count / LinesOnPage;
             }
             else
             {
-                pagesCount = strElements.Count / strsOnPage + 1;
+                pagesCount = _strElements.Count / LinesOnPage + 1;
             }
+
             ConsIO.Write($"We have {pagesCount} pages. Enter the number of page you want to print(>0):");
             
             try
             {
                 pageToPrint =Int32.Parse(ConsIO.ReadLine());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Environment.Exit(0);
             }
-            //Int32.TryParse(ConsIO.Read(), out pPrint);
             
             Lesson6.Task3.DisplayPage(pageToPrint, sortedElements);
+            
             #endregion
         }
     }

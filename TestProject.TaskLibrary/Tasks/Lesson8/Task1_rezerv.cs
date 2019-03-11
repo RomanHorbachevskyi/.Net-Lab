@@ -92,8 +92,8 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             /*Rectangle Rec1=new Rectangle(32,10,42,0);
             Rectangle Rec2=new Rectangle(21,5,31,-5);
             */
-            Rectangle Rec1 = new Rectangle(tempTX1, tempTY1, tempBX1, tempBY1);
-            Rectangle Rec2 = new Rectangle(tempTX2, tempTY2, tempBX2, tempBY2);
+            RectangleByAbstract Rec1 = new RectangleByAbstract(tempTX1, tempTY1, tempBX1, tempBY1);
+            RectangleByAbstract Rec2 = new RectangleByAbstract(tempTX2, tempTY2, tempBX2, tempBY2);
 
             FigureModifier.DrawFigures(Rec1,Rec2);
             //Rec1.Draw();
@@ -107,7 +107,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             {
                 IntersectedRectangles.GetIntersectionCoords(Rec1,Rec2, out TopLeftX, out TopLeftY,
                                                     out BottomRightX, out BottomRightY);
-                Rectangle IntersectRec = new Rectangle(TopLeftX, TopLeftY, BottomRightX, BottomRightY);
+                RectangleByAbstract IntersectRec = new RectangleByAbstract(TopLeftX, TopLeftY, BottomRightX, BottomRightY);
                 ConsIO.WriteLine("Rectangles are intersecting.");
                 IntersectRec.Draw();
             }
@@ -126,7 +126,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             
             ConsIO.WriteLine($"Smallest rectangle coordinates: {TopLeftX}, {TopLeftY}; " +
                              $"{BottomRightX}, {BottomRightY}");
-            Rectangle sRec =new SmallestRectangle(TopLeftX,TopLeftY,BottomRightX,BottomRightY);
+            RectangleByAbstract sRec =new SmallestRectangleByAbstract(TopLeftX,TopLeftY,BottomRightX,BottomRightY);
             FigureModifier.SortCoords(ref sRec);
             sRec.Draw();
             ConsIO.ReadLine();
@@ -190,10 +190,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
     #region Classes
 
-    public class Rectangle : Lesson4.Rectangle
+    public class RectangleByAbstract : Lesson4.RectangleByAbstract
     {
         // constructors
-        public Rectangle(int topLeftX,int topLeftY, int bottomRightX, int bottomRightY)
+        public RectangleByAbstract(int topLeftX,int topLeftY, int bottomRightX, int bottomRightY)
         {
 
             TopLeftX = topLeftX;
@@ -284,7 +284,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.WriteLine(sb.ToString());
         }
 
-        public bool HasIntersection(ref Rectangle rec2)
+        public bool HasIntersection(ref RectangleByAbstract rec2)
         {
             //#region Fields
 
@@ -322,25 +322,25 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
         #region Max and Min coordinates (in 1 figure)
 
-        public static int MinX(Rectangle rect)
+        public static int MinX(RectangleByAbstract rect)
         {
             TempX = rect.TopLeftX;
             if (TempX > rect.BottomRightX) TempX = rect.BottomRightX;
             return TempX;
         }
-        public static int MinY(Rectangle rect)
+        public static int MinY(RectangleByAbstract rect)
         {
             TempY = rect.TopLeftY;
             if (TempY > rect.BottomRightY) TempY = rect.BottomRightY;
             return TempY;
         }
-        public static int MaxX(Rectangle rect)
+        public static int MaxX(RectangleByAbstract rect)
         {
             TempX = rect.TopLeftX;
             if (TempX < rect.BottomRightX) TempX = rect.BottomRightX;
             return TempX;
         }
-        public static int MaxY(Rectangle rect)
+        public static int MaxY(RectangleByAbstract rect)
         {
             TempY = rect.TopLeftY;
             if (TempY < rect.BottomRightY) TempY = rect.BottomRightY;
@@ -352,7 +352,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         #region Max and Min coordinates (based on 2 figures)
         // Get Max/Min coordinates for New minimal rectangle around two existing (based on Coordinates).
         
-        public static int MinX(Rectangle rect1, Rectangle rect2)
+        public static int MinX(RectangleByAbstract rect1, RectangleByAbstract rect2)
         {
             TempX = rect1.TopLeftX;
             if (TempX > rect1.BottomRightX) TempX = rect1.BottomRightX;
@@ -360,7 +360,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             if (TempX > rect2.TopLeftX) TempX = rect2.TopLeftX;
             return TempX;
         }
-        public static int MinY(Rectangle rect1, Rectangle rect2)
+        public static int MinY(RectangleByAbstract rect1, RectangleByAbstract rect2)
         {
             TempY = rect1.TopLeftY;
             if (TempY > rect1.BottomRightY) TempY = rect1.BottomRightY;
@@ -368,7 +368,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             if (TempY > rect2.TopLeftY) TempY = rect2.TopLeftY;
             return TempY;
         }
-        public static int MaxX(Rectangle rect1, Rectangle rect2)
+        public static int MaxX(RectangleByAbstract rect1, RectangleByAbstract rect2)
         {
             TempX = rect1.TopLeftX;
             if (TempX < rect1.BottomRightX) TempX = rect1.BottomRightX;
@@ -376,7 +376,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             if (TempX < rect2.TopLeftX) TempX = rect2.TopLeftX;
             return TempX;
         }
-        public static int MaxY(Rectangle rect1, Rectangle rect2)
+        public static int MaxY(RectangleByAbstract rect1, RectangleByAbstract rect2)
         {
             TempY = rect1.TopLeftY;
             if (TempY < rect1.BottomRightY) TempY = rect1.BottomRightY;
@@ -443,35 +443,35 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             windowWidth = ConsIO.WindowWidth;
             windowHeight = ConsIO.WindowHeight;
 
-            if (obj1 is Rectangle & obj2 is Rectangle)
+            if (obj1 is RectangleByAbstract & obj2 is RectangleByAbstract)
             {
                 // Setting bigger sides to widths.
-                tempValue = ((Rectangle)obj1).Width;
-                if (tempValue >= ((Rectangle) obj1).Height)
+                tempValue = ((RectangleByAbstract)obj1).Width;
+                if (tempValue >= ((RectangleByAbstract) obj1).Height)
                 {
                     width1 = tempValue;
-                    height1 = ((Rectangle)obj1).Height;
+                    height1 = ((RectangleByAbstract)obj1).Height;
                 }
                 else
                 {
                     height1 = tempValue;
-                    width1 = ((Rectangle)obj1).Height;
+                    width1 = ((RectangleByAbstract)obj1).Height;
                 }
 
-                tempValue = ((Rectangle)obj2).Width;
-                if (tempValue >= ((Rectangle)obj2).Height)
+                tempValue = ((RectangleByAbstract)obj2).Width;
+                if (tempValue >= ((RectangleByAbstract)obj2).Height)
                 {
                     width2 = tempValue;
-                    height2 = ((Rectangle)obj2).Height;
+                    height2 = ((RectangleByAbstract)obj2).Height;
                 }
                 else
                 {
                     height2 = tempValue;
-                    width2 = ((Rectangle)obj2).Height;
+                    width2 = ((RectangleByAbstract)obj2).Height;
                 }
 
-                area1 = ((Rectangle) obj1).Area;
-                area2 = ((Rectangle) obj2).Area;
+                area1 = ((RectangleByAbstract) obj1).Area;
+                area2 = ((RectangleByAbstract) obj2).Area;
 
                 // We have few cases to check rectangles to be the smallest.
                 // Bottom (first) rectangle will be with bigger width
@@ -639,7 +639,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <param name="rec1"></param>
         /// <param name="rec2"></param>
         /// <returns></returns>
-        public static bool CheckIntersection(Rectangle rec1, Rectangle rec2)
+        public static bool CheckIntersection(RectangleByAbstract rec1, RectangleByAbstract rec2)
         {
             FigureModifier.SortCoords(ref rec1, ref rec2);
             
@@ -676,7 +676,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
         }
 
-        public static void GetIntersectionCoords(Rectangle rec1, Rectangle rec2, out int TopLeftX,
+        public static void GetIntersectionCoords(RectangleByAbstract rec1, RectangleByAbstract rec2, out int TopLeftX,
                                 out int TopLeftY, out int BottomRightX, out int BottomRightY)
         {
             FigureModifier.SortCoords(ref rec1, ref rec2);
@@ -747,7 +747,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
     }
 
 
-    public class SmallestRectangle: Rectangle
+    public class SmallestRectangleByAbstract: RectangleByAbstract
     {
         
         #region Constructors
@@ -760,7 +760,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         }
         */
 
-        public SmallestRectangle(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY)
+        public SmallestRectangleByAbstract(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY)
             :base(topLeftX,topLeftY,bottomRightX, bottomRightY) 
             //: base(GetTopLeftX(Rect1, Rect2), GetTopLeftY(Rect1, Rect2), GetBottomRightX(Rect1, Rect2),
             //    GetBottomRightY(Rect1, Rect2))
@@ -799,7 +799,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <param name="TY2"></param>
         /// <param name="BX2"></param>
         /// <param name="BY2"></param>
-        public static void SortCoords(ref Rectangle rec1, ref Rectangle rec2)
+        public static void SortCoords(ref RectangleByAbstract rec1, ref RectangleByAbstract rec2)
         {
             var TX1 = MaxMinRectangleCoords.MinX(rec1);
             var TY1 = MaxMinRectangleCoords.MaxY(rec1);
@@ -823,7 +823,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// Method SortCoords sorts (assigns) coordinates to real Top, Bottom, Left, Right
         /// </summary>
         /// <param name="rec"></param>
-        public static void SortCoords(ref Rectangle rec)
+        public static void SortCoords(ref RectangleByAbstract rec)
         {
             var TX = MaxMinRectangleCoords.MinX(rec);
             var TY = MaxMinRectangleCoords.MaxY(rec);
@@ -844,15 +844,15 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <param name="dY"></param>
         public static void Move(object obj, int dX, int dY)
         {
-            if (obj is Rectangle)
+            if (obj is RectangleByAbstract)
             {
                 // Checking if we can move rectangle inside space
 
                 // Moving Rectangle
-                ((Rectangle) obj).BottomRightX += dX;
-                ((Rectangle) obj).TopLeftX += dX;
-                ((Rectangle) obj).BottomRightY += dY;
-                ((Rectangle) obj).TopLeftY += dY;
+                ((RectangleByAbstract) obj).BottomRightX += dX;
+                ((RectangleByAbstract) obj).TopLeftX += dX;
+                ((RectangleByAbstract) obj).BottomRightY += dY;
+                ((RectangleByAbstract) obj).TopLeftY += dY;
                 
                 //((Rectangle) obj).Draw();
             }
@@ -872,13 +872,13 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <param name="dY"></param>
         public static void Resize(object obj, int dX, int dY=0)
         {
-            if (obj is Rectangle)
+            if (obj is RectangleByAbstract)
             {
                 // Checking if we can change rectangle inside space
                 
                 // Moving Rectangle
-                ((Rectangle)obj).BottomRightX += dX;
-                ((Rectangle)obj).TopLeftY += dY;
+                ((RectangleByAbstract)obj).BottomRightX += dX;
+                ((RectangleByAbstract)obj).TopLeftY += dY;
                 //((Rectangle)obj).Draw();
             }
         }
@@ -903,22 +903,22 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             else
             {
                 
-                if (IntersectedRectangles.CheckIntersection(obj1 as Rectangle, obj2 as Rectangle) == false)
+                if (IntersectedRectangles.CheckIntersection(obj1 as RectangleByAbstract, obj2 as RectangleByAbstract) == false)
                 {
                     // Rectangles are not intersecting.
                     // Looking which rectangle has greater Y coordinate.
-                    int leftY1 = ((Rectangle) obj1).TopLeftY;
-                    int leftX1 = ((Rectangle) obj1).TopLeftX;
-                    int rightY1 = ((Rectangle) obj1).BottomRightY;
-                    int rightX1 = ((Rectangle) obj1).BottomRightX;
-                    int Height1 = ((Rectangle) obj1).Height;
-                    int Width1 = ((Rectangle) obj1).Width;
-                    int leftY2 = ((Rectangle) obj2).TopLeftY;
-                    int leftX2 = ((Rectangle) obj2).TopLeftX;
-                    int rightY2 = ((Rectangle) obj2).BottomRightY;
-                    int rightX2 = ((Rectangle) obj2).BottomRightX;
-                    int Height2 = ((Rectangle) obj2).Height;
-                    int Width2 = ((Rectangle) obj2).Width;
+                    int leftY1 = ((RectangleByAbstract) obj1).TopLeftY;
+                    int leftX1 = ((RectangleByAbstract) obj1).TopLeftX;
+                    int rightY1 = ((RectangleByAbstract) obj1).BottomRightY;
+                    int rightX1 = ((RectangleByAbstract) obj1).BottomRightX;
+                    int Height1 = ((RectangleByAbstract) obj1).Height;
+                    int Width1 = ((RectangleByAbstract) obj1).Width;
+                    int leftY2 = ((RectangleByAbstract) obj2).TopLeftY;
+                    int leftX2 = ((RectangleByAbstract) obj2).TopLeftX;
+                    int rightY2 = ((RectangleByAbstract) obj2).BottomRightY;
+                    int rightX2 = ((RectangleByAbstract) obj2).BottomRightX;
+                    int Height2 = ((RectangleByAbstract) obj2).Height;
+                    int Width2 = ((RectangleByAbstract) obj2).Width;
 
                     int[,] arX = new int[4, 4];
                     int[,] arY = new int[4, 4];
@@ -1630,14 +1630,14 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 else
                 {
                     // Looking which rectangle has greater Y coordinate.
-                    int leftY1 = ((Rectangle)obj1).TopLeftY;
-                    int leftX1 = ((Rectangle)obj1).TopLeftX;
-                    int rightY1 = ((Rectangle)obj1).BottomRightY;
-                    int rightX1 = ((Rectangle)obj1).BottomRightX;
-                    int leftY2 = ((Rectangle)obj2).TopLeftY;
-                    int leftX2 = ((Rectangle)obj2).TopLeftX;
-                    int rightY2 = ((Rectangle)obj2).BottomRightY;
-                    int rightX2 = ((Rectangle)obj2).BottomRightX;
+                    int leftY1 = ((RectangleByAbstract)obj1).TopLeftY;
+                    int leftX1 = ((RectangleByAbstract)obj1).TopLeftX;
+                    int rightY1 = ((RectangleByAbstract)obj1).BottomRightY;
+                    int rightX1 = ((RectangleByAbstract)obj1).BottomRightX;
+                    int leftY2 = ((RectangleByAbstract)obj2).TopLeftY;
+                    int leftX2 = ((RectangleByAbstract)obj2).TopLeftX;
+                    int rightY2 = ((RectangleByAbstract)obj2).BottomRightY;
+                    int rightX2 = ((RectangleByAbstract)obj2).BottomRightX;
 
                     int[,] arX = new int[4, 4];
                     int[,] arY = new int[4, 4];
@@ -1747,7 +1747,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// </summary>
         /// <param name="rec"></param>
         /// <returns></returns>
-        public static bool RectangleIsInWindow(Rectangle rec)
+        public static bool RectangleIsInWindow(RectangleByAbstract rec)
         {
             //int windowWidth = ConsIO.WindowWidth;
             //int windowHeight = ConsIO.WindowHeight;
@@ -1759,7 +1759,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <param name="rec1"></param>
         /// <param name="rec2"></param>
         /// <returns></returns>
-        public static bool RectanglesAreInWindow(Rectangle rec1, Rectangle rec2)
+        public static bool RectanglesAreInWindow(RectangleByAbstract rec1, RectangleByAbstract rec2)
         {
             //int windowWidth = ConsIO.WindowWidth;
             //int windowHeight = ConsIO.WindowHeight;

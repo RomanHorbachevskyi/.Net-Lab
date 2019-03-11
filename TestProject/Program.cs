@@ -39,7 +39,6 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson4.Task2(),
                 new TaskLibrary.Tasks.Lesson4.Task3(),
                 new TaskLibrary.Tasks.Lesson4.Task4(),
-                new TaskLibrary.Tasks.Lesson5.CW_Task1(),
                 new TaskLibrary.Tasks.Lesson5.Task1(),
                 new TaskLibrary.Tasks.Lesson5.Task2(),
                 new TaskLibrary.Tasks.Lesson5.Task3(),
@@ -54,12 +53,15 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson6.OptTask2(),
                 new TaskLibrary.Tasks.Lesson8.OptTask1(),
                 new TaskLibrary.Tasks.Lesson8.Task1(),
+                new TaskLibrary.Tasks.Lesson8.Task2(),
+                new TaskLibrary.Tasks.Lesson9.CW_LINQ(),
                 new TaskLibrary.Tasks.Lesson9.Task1_4(),
                 new TaskLibrary.Tasks.Lesson9.Task5(),
                 new TaskLibrary.Tasks.Lesson11.Task1(),
                 new TaskLibrary.Tasks.Lesson11.Task2(),
                 new TaskLibrary.Tasks.Lesson11.Task3(),
                 new TaskLibrary.Tasks.Lesson11.Task4(),
+                
 
             };
             

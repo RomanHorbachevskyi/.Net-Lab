@@ -5,8 +5,8 @@ using System.Text;
 
 namespace TestProject.Common.Core.Interfaces
 {
-    public interface IMovable
+    public interface IDrawable
     {
-        void Move();
+        void Draw();
     }
 }

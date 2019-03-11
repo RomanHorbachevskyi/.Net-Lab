@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson5
 {
@@ -10,49 +11,48 @@ namespace TestProject.TaskLibrary.Tasks.Lesson5
     {
         public void Run()
         {
-            string s = "*** Now you are in Lesson5.Task4 ***";
-            ConsIO.WriteLine(s);
-            ConsIO.WriteLine("Now we are creating matrice MxN.");
             int m, n;
-            ConsIO.Write("Enter M>1:");
-            s = ConsIO.ReadLine();
-            if ((s == "q") | (s == "b"))
-            {
-                Environment.Exit(0);
-            }
-            Int32.TryParse(s, out m);
-            ConsIO.Write("Enter N>1:");
-            s = ConsIO.ReadLine();
-            if ((s == "q") | (s == "b"))
-            {
-                Environment.Exit(0);
-            }
-            Int32.TryParse(s, out n);
-            ConsIO.WriteLine($"Now we are creating vector of Max's from the array MxN={m}x{n}.");
-            int[,] Ar = new int[m,n];
-            int[] aMax=new int[m];
+            int[,] myArray;
+            int[] arrayMax;
             int temp;
-            int tempMax =0;
+            int tempMax = 0;
+
+            string s = "*** Now you are in Lesson5.Task4 ***\n";
+            s = s + "       On the basis of the array (MxN, M>1, N>1) create the vector\n" +
+                "       which contains elements with maximum value\n" +
+                "       from every row";
+            ConsIO.WriteLine(s);
+            ConsIO.WriteLine("Now we are creating matrix MxN.");
+            
+            ConsIO.Write("Enter M>1:  ");
+            m = Validators.GetIntPositiveNumber(ConsIO.ReadLine());
+            ConsIO.Write("Enter N>1:  ");
+            n = Validators.GetIntPositiveNumber(ConsIO.ReadLine());
+            ConsIO.WriteLine($"Now we are creating vector of Max's from the array MxN={m}x{n}.");
+
+            myArray = new int[m,n];
+            arrayMax = new int[m];
+            
             for (int i = 0; i < m; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
                     temp = i + j;
-                    Ar[i, j] = temp;
+                    myArray[i, j] = temp;
                     if (tempMax < temp)
                         tempMax = temp;
                     ConsIO.Write($"{temp} ");
                 }
 
-                aMax[i] = tempMax;
-                ConsIO.WriteLine("");
+                arrayMax[i] = tempMax;
+                ConsIO.WriteLine();
             }
             ConsIO.WriteLine("Vector array of Max's:");
             for (int i = 0; i < m; i++)
             {
-                ConsIO.Write(aMax[i].ToString() + "; ");
+                ConsIO.Write(arrayMax[i] + "; ");
             }
-            ConsIO.WriteLine("");
+            ConsIO.WriteLine();
             ConsIO.ReadLine();
         }
     }

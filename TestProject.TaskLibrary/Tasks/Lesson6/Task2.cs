@@ -11,7 +11,9 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
         public void Run()
         {
             string s = "*** Now you are in Lesson6.Task2 ***";
-            s = s + "\n    Work with List<T>, Part 2";
+            s = s + "\n    Work with List<T>, Part 2\n" +
+                "   Add to list 2 more persons using method \"AddRange\".\n" +
+                "   Print phone numbers of all persons without LINQ.";
             ConsIO.WriteLine(s);
 
             List<Person> persons = new List<Person>()

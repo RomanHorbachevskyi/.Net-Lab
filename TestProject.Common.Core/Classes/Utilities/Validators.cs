@@ -1,8 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace TestProject.Common.Core.Classes.Utilities
@@ -101,11 +99,18 @@ namespace TestProject.Common.Core.Classes.Utilities
             return i;
         }
 
+        /// <summary>
+        /// Checks whether the entered value corresponds to
+        /// one of the values defined in the array of values.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="values">Array of values.</param>
+        /// <returns></returns>
         public static bool IsCorrectStringValue(ref string value, params string[] values)
         {
-            for (int i = 0; i < values.Length; i++)
+            foreach (var val in values)
             {
-                if (value.ToLower()==values[i].ToLower())
+                if (value.ToLower()==val.ToLower())
                 {
                     return true;
                 }

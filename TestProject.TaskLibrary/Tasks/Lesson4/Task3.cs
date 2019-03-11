@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TestProject.Common.Core.Classes;
 using TestProject.Common.Core.Interfaces;
@@ -12,75 +11,100 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
     {
         public void Run()
         {
-            string s = "*** Now you are in Lesson4.Task3 ***";
+            string s = "*** Now you are in Lesson4.Task3 ***\n";
+            s = s + "       Using previous task change abstract method Draw() to virtual.\n" +
+                "       Make sure that 3 implementations of method Draw() work.";
             ConsIO.WriteLine(s);
-            Console.WriteLine("*  Drawing Squares *");
-            Square43 sq = new Square43(10, 10);
+            ConsIO.WriteLine("*  Drawing Squares *");
+            var sq = new SquareByVirtual(10, 10);
+            ConsIO.WriteLine("  as Square ");
             sq.Draw();
-            (sq as Figure43).Draw();
-            Figure43 fig = sq;
-            fig.Draw();
-            (fig as Square43).Draw();
-            Console.WriteLine("-----");
-            Console.WriteLine("drawing figure:");
-            Figure43 sq1 = sq;//new Figure43(5,5);
-            //((Figure43)sq1).Draw();
-            Console.WriteLine("* drawing rectangle");
-            Rectangle43 rc = new Rectangle43(15, 15);
+            ConsIO.WriteLine("  as Figure ");
+            ((FigureVirtual) sq).Draw();
+            
+            ConsIO.WriteLine("* drawing rectangle");
+            var rc = new RectangleByVirtual(15, 15);
+            ConsIO.WriteLine("  as Rectangle ");
             rc.Draw();
+            ConsIO.WriteLine("  as Figure ");
+            ((FigureVirtual) rc).Draw();
         }
     }
 
-    public class Figure43
+    public class FigureVirtual
     {
-        //private string Name;// = "Figure";
-        public virtual void Draw()
-        {
-            string s = "Drawing Figure from class Figure43";
-            ConsIO.WriteLine(s);
-        }
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public string Name { get; set; }
-
-        public Figure43(int x, int y)
+        /// <summary>
+        /// Initializes new instance of Figure
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public FigureVirtual(int x, int y)
         {
             X = x;
             Y = y;
         }
 
-        public Figure43(string name)
-        {
-            Name = name;
-        }
-    }
+        /// <summary>
+        /// X coordinate.
+        /// </summary>
+        public int X { get; private set; }
 
-    public class Square43 : Figure43
-    {
-        //private int x, y;
-        //private static string Name = "Square";
-        public Square43(int x, int y):base(x,y)
+        /// <summary>
+        /// Y coordinate.
+        /// </summary>
+        public int Y { get; private set; }
+        
+        /// <summary>
+        /// Print figure from class Figure
+        /// </summary>
+        public virtual void Draw()
         {
-            
-        }
-        //public Square43(string name) : base(Name) { }
-        public override void Draw()
-        {
-            string s = "Drawing Square from class Square43";
+            string s = "Drawing Figure from class Figure";
             ConsIO.WriteLine(s);
         }
     }
-    public class Rectangle43 : Figure43
+
+    public class SquareByVirtual : FigureVirtual
     {
-        //private static string Name = "Rectangle";
-        public Rectangle43(int x, int y) : base(x, y)
+        /// <summary>
+        /// Initializes new instance of
+        /// square inherited from Figure
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public SquareByVirtual(int x, int y):base(x,y)
+        {
+            
+        }
+
+        /// <summary>
+        /// Print square from class Square
+        /// </summary>
+        public override void Draw()
+        {
+            string s = "Drawing Square from class Square";
+            ConsIO.WriteLine(s);
+        }
+    }
+    public class RectangleByVirtual : FigureVirtual
+    {
+        /// <summary>
+        /// Initializes new instance of
+        /// rectangle inherited from Figure
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public RectangleByVirtual(int x, int y) : base(x, y)
         {
 
         }
-        //public Rectangle43(string name) : base(Name) { }
+
+        /// <summary>
+        /// Print rectangle from class Rectangle
+        /// </summary>
         public override void Draw()
         {
-            string s = "Drawing Rectangle from class Rectangle43";
+            string s = "Drawing Rectangle from class Rectangle";
             ConsIO.WriteLine(s);
         }
     }

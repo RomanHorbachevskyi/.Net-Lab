@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 
 
 namespace TestProject.TaskLibrary.Tasks.Lesson3
@@ -13,105 +14,85 @@ namespace TestProject.TaskLibrary.Tasks.Lesson3
         public void Run()
         {
             string s;
+            
             s = "*** Now you are in Lesson3.Task1 ***" +
-                "\n    Create structure Person and compare Age with entered number";
+                "\n    Create structure Person and compare Age with entered number (age)";
             ConsIO.WriteLine(s);
 
-            Person p1 = new Person();
+            var p1 = new Person();
 
             #region Setting properties for person
+
             s = "Set Name:";
             ConsIO.WriteLine(s);
-            if ((s == "q") | (s == "b"))
-            {
-                Environment.Exit(0);
-            }
-            p1.Name = ConsIO.ReadLine();
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            p1.Name = s;
+
             s = "Set Surname:";
             ConsIO.WriteLine(s);
-            if ((s == "q") | (s == "b"))
-            {
-                Environment.Exit(0);
-            }
-            p1.Surname = ConsIO.ReadLine();
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            p1.Surname = s;
+
             s = "Set Age:";
             ConsIO.WriteLine(s);
-            if ((s == "q") | (s == "b"))
-            {
-                Environment.Exit(0);
-            }
-            s= ConsIO.ReadLine();
-            int n;
-            while (!Int32.TryParse(s, out n) || n <= 0)
-            {
-                s = "Incorrect value. Enter only positive integer number.";
-                ConsIO.WriteLine(s);
-                s = ConsIO.ReadLine();
-            }
-            p1.Age = n;
+            s = ConsIO.ReadLine();
+            ConsIO.CheckForExitTask(ref s);
+            p1.Age = Validators.GetIntPositiveNumber(s);
+
+            #endregion
+
             s = "\nEnter value to compare age:";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            p1.CompAge(ref s);
-            s = "";
-            ConsIO.ReadLine();
-            #endregion
-
-
-
-            //int[] i = {1, 2, 3};
-            /*ConsIO.Write(ref s,1,2,3 );
-            string s1=ConsIO.Read();
-            ConsIO.Write(ref s1);
-            ConsIO.Read();
-            Console.WriteLine("*** Now you are in Lesson3.Task1 ***");
-            Console.WriteLine ("    Hello, world!\n");*/
+            ConsIO.CheckForExitTask(ref s);
+            p1.CompareAge(Validators.GetIntPositiveNumber(s));
         }
     }
 
     public struct Person
     {
-        //private string Name;
-        //private string SName;
-        //private int Age;
-        
         #region Properties
+
+        /// <summary>
+        /// Name of Person.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Surname of Person.
+        /// </summary>
         public string Surname { get; set; }
+
+        /// <summary>
+        /// Age of Person.
+        /// </summary>
         public int Age { get; set; }
+        
         #endregion
 
-
-        public void CompAge(ref string N)
+        /// <summary>
+        /// Compares age of person with specified.
+        /// </summary>
+        /// <param name="age">Age to compare with</param>
+        public void CompareAge(int age)
         {
-            int n;
             string s;
-            if ((N == "q") | (N == "b"))
-            {
-                Environment.Exit(0);
-            }
-            while (!Int32.TryParse(N, out n)||n<=0)
-            {
-                s = "Incorrect value. Enter only positive integer number.";
-                ConsIO.WriteLine(s);
-                s = ConsIO.ReadLine();
-                this.CompAge(ref s);
-            }
-
-            if (Age > n)
+            if (Age > age)
             {
                 s = "{0} {1} older than {2}";
-                ConsIO.WriteLine(s,Name,Surname,n);
+                ConsIO.WriteLine(s,Name, Surname, age);
             }
-            else if (Age<n)
+            else if (Age< age)
             {
                 s = "{0} {1} younger than {2}";
-                ConsIO.WriteLine(s, Name, Surname, n);
+                ConsIO.WriteLine(s, Name, Surname, age);
             }
             else
             {
                 s = "{0} {1} age equals {2}";
-                ConsIO.WriteLine(s, Name, Surname, n);
+                ConsIO.WriteLine(s, Name, Surname, age);
             }
         }
     }

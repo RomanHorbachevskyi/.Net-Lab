@@ -10,58 +10,33 @@ namespace TestProject.TaskLibrary.Tasks.Lesson5
     {
         public void Run()
         {
-            string s = "*** Now you are in Lesson5.Task2 ***";
-            ConsIO.WriteLine(s);
-
-            int L = 10;
-            int[] Ar = new int[L];
-            int[] Ar1 =new int[L];
+            const int Length = 10;
+            int[] myArray = new int[Length];
             int temp;
-            int counter=0;
-            for (int i = 0; i < L; i++)
+            int counter = 0;
+
+            string s = "*** Now you are in Lesson5.Task2 ***\n";
+            s = s + "       Get quantity of simple numbers in the defined array.";
+            ConsIO.WriteLine(s);
+            
+            for (int i = 0; i < Length; i++)
             {
                 temp = i*i;
-                Ar[i] = temp;
-                s = temp.ToString()+"; ";
+                myArray[i] = temp;
+                s = temp + "; ";
                 ConsIO.Write(s);
             }
-            ConsIO.WriteLine("");
-            bool isSimple=true;
-            int j;
-            for (int i = 0; i < Ar.Length; i++)
+            ConsIO.WriteLine();
+            
+            foreach (var value in myArray)
             {
-                temp = Ar[i];
-                /*if ((temp % 7 == 0))
-                {
-                    isSimple = false;
-                    break;
-                }
-                if ((temp % 5 != 0))
-                {
-                    isSimple = false;
-                    break;
-                }
-                if ((temp % 3 != 0))
-                {
-                    isSimple = false;
-                    break;
-                }
-                if ((temp % 2 != 0))
-                {
-                    isSimple = false;
-                    break;
-                }*/
-
-                /*if (isSimple == true)
-                {
-
-                }*/
-                if ((temp==1)| (temp == 3)| (temp == 5)| (temp == 7))
+                temp = value;
+                if ((temp == 1)| (temp == 3)| (temp == 5)| (temp == 7))
                 {
                     counter +=1;
                 }
             }
-            ConsIO.WriteLine("The array from above has {0} Simple numbers.",counter);
+            ConsIO.WriteLine("The array from above has {0} Simple numbers.", counter);
             ConsIO.ReadLine();
         }
     }

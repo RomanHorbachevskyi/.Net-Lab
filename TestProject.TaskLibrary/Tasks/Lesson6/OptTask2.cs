@@ -16,7 +16,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
         {
 
             string s = "*** Now you are in Lesson6.OptTask2 ***";
-            s = s + "\n    Work with Observable Collection";
+            s = s + "\n    Work with Observable Collection. Checking at home an example from the lecture.";
             ConsIO.WriteLine(s);
 
             var observableCollection = new ObservableCollection<MyClass>();
@@ -27,11 +27,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
             observableCollection.Add(new MyClass{Id=2});
             observableCollection.RemoveAt(0);
 
-            //ConsIO.WriteLine();
             ConsIO.ReadLine();
         }
 
-        public static void ObservableCollection_CollectionChanged(object sendrer, NotifyCollectionChangedEventArgs e)
+        public static void ObservableCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             ConsIO.WriteLine("Action: "+ e.Action);
             if (e.OldItems != null)

@@ -11,24 +11,27 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
         public void Run()
         {
             List<int> list1;
+            string s = "*** Now you are in Lesson6.CW_Task1 ***";
+            s = s + "\n    Checking how works example from lecture";
+            ConsIO.WriteLine(s);
             list1=new List<int>();
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i < 3; i++)
             {
                 list1.Add(1);
 
             }
+            var list2 = new List<int>(list1) {4, 5};
+            ConsIO.WriteLine("Capacity: " + list2.Capacity);
+            ConsIO.WriteLine("Count: " + list2.Count + "\n");
+            foreach (var item in list2)
+            {
+                ConsIO.WriteLine(item.ToString());
+            }
 
-            ConsIO.WriteLine(list1.Capacity.ToString());
-            ConsIO.WriteLine(list1.Count.ToString());
             ConsIO.ReadLine();
         }
-
-
     }
 
-    public interface IMyInterface
-    {
-        string Prop { get; set; }
-    }
+    
     
 }

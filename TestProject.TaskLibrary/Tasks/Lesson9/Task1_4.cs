@@ -84,7 +84,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson9
                 {
                     ConsIO.Write(" " + phoneNumber);
                 }
-                ConsIO.WriteLine("");
+                ConsIO.WriteLine();
             }
             
             #endregion
@@ -92,18 +92,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson9
             ConsIO.ReadLine();
         }
 
-        public static void PrintPhoneNumbers(ref IEnumerable<Lesson6.Person> persons)
-        {
-            foreach (var person in persons)
-            {
-                ConsIO.Write($"{person.Name} has these phone numbers: ");
-                foreach (var personPhN in person.PhoneNumbers)
-                {
-                    ConsIO.Write($" {personPhN};");
-                }
-                ConsIO.WriteLine("");
-            }
-        }
+        /// <summary>
+        /// Prints all phone numbers that person has.
+        /// </summary>
+        /// <param name="persons"></param>
         public static void PrintPhoneNumbers(ref List<Lesson6.Person> persons)
         {
             foreach (var person in persons)
@@ -113,7 +105,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson9
                 {
                     ConsIO.Write($" {personPhN};");
                 }
-                ConsIO.WriteLine("");
+                ConsIO.WriteLine();
             }
         }
     }
