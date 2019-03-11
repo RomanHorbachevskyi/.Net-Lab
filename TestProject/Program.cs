@@ -53,7 +53,7 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson6.OptTask2(),
                 new TaskLibrary.Tasks.Lesson8.OptTask1(),
                 new TaskLibrary.Tasks.Lesson8.Task1(),
-                new TaskLibrary.Tasks.Lesson8.Task2(),
+                //new TaskLibrary.Tasks.Lesson8.Task2(),
                 new TaskLibrary.Tasks.Lesson9.CW_LINQ(),
                 new TaskLibrary.Tasks.Lesson9.Task1_4(),
                 new TaskLibrary.Tasks.Lesson9.Task5(),
