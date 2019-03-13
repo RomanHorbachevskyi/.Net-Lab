@@ -1,6 +1,9 @@
 # .Net-Lab
 The most interesting task at this moment is Lesson8.Task1.
 
+Also when you start TestProject you can select any task you want to see how it works.
+
+
 Short contents:
 Lesson1 - Hello world; task from udemy.org
 Lesson2 - Work with Classes

@@ -50,6 +50,41 @@ namespace TestProject.Common.Core.Classes
         {
             Console.WriteLine(s, obj);
         }
+
+        /// <summary>
+        /// Writes the text representation of the specified object,
+        /// followed by the current line terminator, to the
+        /// custom output stream.
+        /// </summary>
+        /// <param name="value">The value to write.</param>
+        public static void WriteLine(object value)
+        {
+            Console.WriteLine(value);
+        }
+
+        /// <summary>
+        /// Writes the specified string value, followed
+        /// by the current line terminator, to the
+        /// custom output stream.
+        /// </summary>
+        /// <param name="s">The value to write.</param>
+        public static void WriteLine(string s)
+        {
+            Console.WriteLine(s);
+        }
+
+        /// <summary>
+        /// Writes the text representation of the specified object,
+        /// followed by the current line terminator, to the custom
+        /// output stream using the specified format information.
+        /// </summary>
+        /// <param name="s">Your string.</param>
+        /// <param name="obj">An object to write using format</param>
+        public static void WriteLine(string s, object obj)
+        {
+            Console.WriteLine(s, obj);
+        }
+
         /// <summary>
         /// Writes the current line terminator to the standard output stream.
         /// </summary>
