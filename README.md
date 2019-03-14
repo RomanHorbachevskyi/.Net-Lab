@@ -87,3 +87,8 @@ Detailed contents:
 	Task2: Generate IndexOutOfRangeException using 1 dim array.
 	Task3: Catch StackOverflowException and IndexOutOfRangeException.
 	Task4: Catch ArgumentException by parameter. To make exception enter a<0 or b>0.
+
+*** Lesson12: ***
+  I/O Streams, working with file system, serialization
+	Task1: Show contents of the specified folder as list of files, subdirectories and their contents.
+	Task2: Create an application that can search a '.txt' file, with specified partial name of the file.
