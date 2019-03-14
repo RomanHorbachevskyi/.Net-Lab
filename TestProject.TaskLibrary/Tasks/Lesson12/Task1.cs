@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities.Enumerators;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson12
 {
@@ -14,10 +15,14 @@ namespace TestProject.TaskLibrary.Tasks.Lesson12
         public void Run()
         {
             DirectoryInfo dirInfo;
-            DirectoryInfo[] subDirs;
-            FileInfo[] filesInDir;
-            DirectoryInfo[] tempSubDirs;
-            FileInfo[] tempFilesInDir;
+            //DirectoryInfo[] subDirs;
+            List<string> subDirs;
+            //FileInfo[] filesInDir;
+            List<string> filesInDir;
+            //DirectoryInfo[] tempSubDirs;
+            List<string> tempSubDirs;
+            //FileInfo[] tempFilesInDir;
+            List<string> tempFilesInDir;
 
             ConsIO.Clear();
             string s = "*** Now you are in Lesson12.Task1 ***\n    Show contents of the specified folder as list of files," +
@@ -27,57 +32,54 @@ namespace TestProject.TaskLibrary.Tasks.Lesson12
             s = ConsIO.ReadLine();
             ConsIO.CheckForExitTask(ref s);
             dirInfo = new DirectoryInfo(s);
+            while (dirInfo.Exists == false)
+            {
+                ConsIO.Write($"Entered directory does not exist, enter new path:  ");
+                s = ConsIO.ReadLine();
+                ConsIO.CheckForExitTask(ref s);
+                dirInfo = new DirectoryInfo(s);
+            }
             ConsIO.WriteLine($"Now we are at the directory: {dirInfo}");
-            subDirs = dirInfo.GetDirectories();
-            filesInDir = dirInfo.GetFiles();
+            
+            subDirs =(List<string>)  SafeFileEnumerator.EnumerateDirectories(dirInfo.FullName, "*", SearchOption.TopDirectoryOnly);
+            
+            filesInDir = (List<string>) SafeFileEnumerator.EnumerateFiles(dirInfo.FullName, "*",
+                SearchOption.TopDirectoryOnly);
 
-            ConsIO.WriteLine($"It includes {subDirs.Length} subdirectories and {filesInDir.Length} files.\n\n");
+            ConsIO.WriteLine($"It includes {subDirs.Count} subdirectories and {filesInDir.Count} files.\n\n");
             foreach (var dir in subDirs)
             {
-                ConsIO.WriteLine(dir.Name + "\\");
+                ConsIO.WriteLine(dir + "\\");
             }
             foreach (var file in filesInDir)
             {
-                ConsIO.WriteLine(file.Name);
+                ConsIO.WriteLine(file);
             }
             ConsIO.WriteLine();
             foreach (var dir in subDirs)
             {
-                try
-                {
-                    tempSubDirs = dir.GetDirectories();
-                    tempFilesInDir = dir.GetFiles();
-                }
-                catch (System.IO.IOException)
-                {
-                    continue;
-                }
-                catch (System.UnauthorizedAccessException)
-                {
-                    continue;
-                }
+                tempSubDirs = (List<string>)
+                    SafeFileEnumerator.EnumerateDirectories(dir, "*",
+                        SearchOption.TopDirectoryOnly);
+                tempFilesInDir = (List<string>)SafeFileEnumerator.EnumerateFiles(dir, "*",
+                    SearchOption.TopDirectoryOnly);
                 
-                ConsIO.WriteLine("\n\n" + dir.FullName + "\\" + "    has " + tempSubDirs.Length + " directories\n" +
-                                 "  and " + tempFilesInDir.Length + " files.");
+
+                ConsIO.WriteLine("\n\n" + dir + "\\" + "    has " + tempSubDirs.Count + " directories\n" +
+                                 "  and " + tempFilesInDir.Count + " files.");
+
                 foreach (var tempSubDir in tempSubDirs)
                 {
-                    ConsIO.WriteLine(tempSubDir.Name + "\\");
+                    ConsIO.WriteLine(tempSubDir + "\\");
                 }
                 foreach (var tempFile in tempFilesInDir)
                 {
-                    ConsIO.WriteLine(tempFile.Name);
+                    ConsIO.WriteLine(tempFile);
                 }
 
             }
-            //ConsIO.WriteLine();
-
+            
             ConsIO.WriteLine("\n\n");
-
         }
-
-        
-
     }
-    
-    
 }

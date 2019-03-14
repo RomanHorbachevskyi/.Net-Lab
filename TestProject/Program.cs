@@ -62,6 +62,7 @@ namespace TestProject
                 new TaskLibrary.Tasks.Lesson11.Task3(),
                 new TaskLibrary.Tasks.Lesson11.Task4(),
                 new TaskLibrary.Tasks.Lesson12.Task1(),
+                new TaskLibrary.Tasks.Lesson12.Task2(),
 
             };
             
