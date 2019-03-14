@@ -78,6 +78,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             {
                 ConsIO.ClearBottom(ref offsetBottom);
                 MoveCircle(ref Circles);
+                Circle.Draw(Circles);
             }
             else if (s.ToLower() == "r")
             {
@@ -160,7 +161,6 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                              $"Width: {smRect.Diameter}, " +
                              $"Height: {smRect.Diameter}");
                 ConsIO.SetCursorPosition(0, 0);
-                smRect.DrawFrom00 = true;
                 smRect.Draw();
             }
             else
@@ -186,7 +186,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.WriteLine($"Enter for Circle {i + 1}:\n");
             EnterInt("\r center X: ", out centerX);
             EnterInt("\r center Y: ", out centerY);
-            EnterIntPositive("\r Width: ", out radius);
+            EnterIntPositive("\r Radius: ", out radius);
             Circles[i] = new Circle(centerX, centerY, radius);
             while (WindowChecker.CirclesAreInWindow(Circle.OffsetHorizontal, Circle.OffsetVertical, Circles.Take(i + 1).ToArray()) == false)
             {
@@ -239,8 +239,8 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
         /// <summary>
         /// Returns string with correct value that corresponds to
-        /// names of vertexes: TL - top left, TR - top right,
-        /// BL - bottom left, BR - bottom right.
+        /// names of vertexes: L - left, T - top,
+        /// B - bottom, R - right.
         /// If entered incorrect value
         /// you will be asked to enter new.
         /// </summary>
@@ -248,14 +248,14 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         private static string EnterVertex()
         {
             string s;
-            string[] vertexes = { "TL", "TR", "BL", "BR" };
-            ConsIO.Write("\rEnter vertex Top left (TL), Top right (TR)," +
-                         "\nBottom left (BL), Bottom right (BR):  ");
+            string[] vertexes = { "L", "T", "B", "R", "C" };
+            ConsIO.Write("\rEnter vertex [L]eft, [T]op, [B]ottom," +
+                         "\n [R]ight, [C]enter:  ");
             s = ConsIO.ReadLine();
             while (Validators.IsCorrectStringValue(ref s, vertexes) == false)
             {
                 ConsIO.ClearBottom(ref Circle.OffsetBottom);
-                ConsIO.Write("\rEntered incorrect value! Allowed only TL,TR, BL, BR:  ");
+                ConsIO.Write("\rEntered incorrect value! Allowed only L,T, B, R, C:  ");
                 s = ConsIO.ReadLine();
                 ConsIO.CheckForExitTask(ref s);
             }
@@ -299,12 +299,12 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// offsets along X and Y axises. If it will be out of the bounds
         /// you will be asked to set new values before moving.
         /// </summary>
-        /// <param name="rects">An array of Circles we work with</param>
-        private static void MoveCircle(ref Circle[] rects)
+        /// <param name="circs">An array of Circles we work with</param>
+        private static void MoveCircle(ref Circle[] circs)
         {
             int i, dX, dY;
-            int lowerBound = rects.GetLowerBound(0) + 1;
-            int upperBound = rects.GetUpperBound(0) + 1;
+            int lowerBound = circs.GetLowerBound(0) + 1;
+            int upperBound = circs.GetUpperBound(0) + 1;
             ConsIO.ClearBottom(ref Circle.OffsetBottom);
             EnterInt("\rEnter number of Circle you want to Move:  ", out i);
             i = Validators.GetCorrectIndexInsideBounds(i, ref lowerBound, ref upperBound) - 1;
@@ -313,21 +313,21 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             EnterInt("\rFor Circle you want to move enter dX:  ", out dX);
             ConsIO.ClearBottom(ref Circle.OffsetBottom);
             EnterInt("\rEnter dY:  ", out dY);
-            rects[i].Move(dX, dY);
-            while (WindowChecker.CirclesAreInWindow(Circle.OffsetHorizontal, Circle.OffsetVertical, rects) == false)
+            circs[i].Move(dX, dY);
+            while (WindowChecker.CirclesAreInWindow(Circle.OffsetHorizontal, Circle.OffsetVertical, circs) == false)
             {
-                rects[i].Move(-dX, -dY);
+                circs[i].Move(-dX, -dY);
                 ConsIO.ClearBottom(ref Circle.OffsetBottom);
                 EnterInt("\rWe are going outside the bounds. Enter new values for dX:  ", out dX);
                 ConsIO.SetCursorPosition(0, ConsIO.WindowHeight - Circle.OffsetBottom);
                 ConsIO.ClearBottom(ref Circle.OffsetBottom);
                 EnterInt("\r  for dY:  ", out dY);
-                MoveCircle(ref rects);
+                MoveCircle(ref circs);
             }
             ConsIO.Clear();
-            foreach (var rect in rects)
+            foreach (var circle in circs)
             {
-                ConsIO.WriteLine($"{rect.X},{rect.Y},{rect.Diameter},{rect.Diameter}");
+                ConsIO.WriteLine($"{circle.X}, {circle.Y}, {circle.Radius}");
             }
         }
     }
@@ -688,117 +688,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <returns></returns>
         public static bool IsInWindowSmallestForBoth(ref Circle circle1, ref Circle circle2)
         {
-            SetRectsBiggerSidesToWidth(ref circle1, ref circle2);
-            CheckCasesForSmallestRect();
+            _smDiameter = circle1.Diameter + circle2.Diameter;
+            
             // Checking if we can draw Circle inside ConsIO.Window
-            if (WindowChecker.CircleIsInWindow(OffsetHorizontal, OffsetVertical, _smDiameter))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Sets biggest sides of both Circles to width
-        /// to make possible creation of smallest Circle.
-        /// </summary>
-        /// <param name="rect1"></param>
-        /// <param name="rect2"></param>
-        private static void SetRectsBiggerSidesToWidth(ref Circle rect1, ref Circle rect2)
-        {
-            _tempValue = rect1.Diameter;
-            if (_tempValue >= rect1.Diameter)
-            {
-                _width1 = _tempValue;
-                _height1 = rect1.Diameter;
-            }
-            else
-            {
-                _height1 = _tempValue;
-                _width1 = rect1.Diameter;
-            }
-
-            _tempValue = rect2.Diameter;
-            if (_tempValue >= rect2.Diameter)
-            {
-                _width2 = _tempValue;
-                _height2 = rect2.Diameter;
-            }
-            else
-            {
-                _height2 = _tempValue;
-                _width2 = rect2.Diameter;
-            }
-        }
-
-        /// <summary>
-        /// Checks different cases of Circles placement
-        /// to find the smallest Circle by sides and area.
-        /// </summary>
-        private static void CheckCasesForSmallestRect()
-        {
-            // Bottom (first) Circle will be with bigger width
-            if (_width1 >= _width2)
-            {
-                _firstWidth = _width1;
-                _firstHeight = _height1;
-                _secondWidth = _width2;
-                _secondHeight = _height2;
-            }
-            else
-            {
-                _firstWidth = _width2;
-                _firstHeight = _height2;
-                _secondWidth = _width1;
-                _secondHeight = _height1;
-            }
-            _tempWidth = _firstWidth;
-            _tempHeight = _firstHeight + _secondHeight;
-            _tempArea = _tempHeight * _tempWidth;
-
-            // Make assumption that first case is the smallest Circle.
-            _smArea = _tempArea;
-            _smDiameter = _tempWidth;
-            _smHeight = _tempHeight;
-
-            // Case 2
-            _tempHeight = _firstHeight + _secondWidth;
-            _tempArea = _tempHeight * _tempWidth;
-
-            // Checking if Case 2 is worst.
-            if (_smArea > _tempArea)
-            {
-                _smHeight = _tempHeight;
-                _smArea = _tempArea;
-            }
-
-            // Case 3.
-            _tempWidth = _firstWidth + _secondWidth;
-            _tempHeight = _firstHeight >= _secondHeight ? _firstHeight : _secondHeight;
-            _tempArea = _tempHeight * _tempWidth;
-
-            // Checking if Case 3 is worst.
-            if (_smArea > _tempArea)
-            {
-                _smDiameter = _tempWidth;
-                _smHeight = _tempHeight;
-                _smArea = _tempArea;
-            }
-            // Case 4.
-            _tempWidth = _firstWidth + _secondHeight;
-            _tempHeight = _firstHeight >= _secondWidth ? _firstHeight : _secondWidth;
-            _tempArea = _tempHeight * _tempWidth;
-
-            // Checking if Case 4 is worst.
-            if (_smArea > _tempArea)
-            {
-                _smDiameter = _tempWidth;
-                _smHeight = _tempHeight;
-                _smArea = _tempArea;
-            }
+            return WindowChecker.CircleIsInWindow(OffsetHorizontal, OffsetVertical, _smDiameter);
         }
 
         #endregion
@@ -828,6 +721,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             else if (vertex.ToLower() == "b")
             {
                 Y += dDiam / 2;
+            }
+            else if (vertex.ToLower() == "c")
+            {
+                Radius += dDiam / 2;
             }
         }
 
@@ -870,15 +767,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         public new void Draw()
         {
             // Drawing in the current view
-            if (DrawFrom00)
-            {
-                DrawInView(this);
-            }
-            // Drawing in the last line
-            else
-            {
-                DrawInLastLine(this);
-            }
+            DrawInView(this);
         }
         
         /// <summary>
@@ -888,95 +777,15 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         private void DrawInView(Circle circle)
         {
             var circlePath = CirclePath();
-            for (int i = 0; i < circlePath.Length / 2; i++)
+            for (int i = 0; i < circlePath.GetLength(0); i++)
             {
                 ConsIO.SetCursorPosition(LeftOffsetX + circlePath[i,0], 
                     TopOffsetY + circlePath[i, 1]);
                 ConsIO.Write("*");
             }
-
-            /*for (int i = 0; i <= circle.Diameter; i++)
-            {
-                for (int j = 0; j <= circle.Radius; j++)
-                {
-                    if (i == 0)
-                    {
-                        ConsIO.SetCursorPosition(LeftOffsetX + circle.X + j, TopOffsetY + circle.Y + i);
-                        if (j == 0)
-                        {
-                            ConsIO.Write("○●┌"); //"┌" "╔"
-                        }
-                        if (j == circle.Radius)
-                        {
-                            ConsIO.Write("┐"); //"┐" "╗"
-                        }
-                        else
-                        {
-                            ConsIO.Write("─"); //"─" "═"
-                        }
-                    }
-                    else if (i == circle.Diameter)
-                    {
-                        ConsIO.SetCursorPosition(LeftOffsetX + circle.X + j, TopOffsetY + circle.Y + i);
-                        if (j == 0) ConsIO.Write("└"); //"└" "╚"
-                        if (j == circle.Radius) ConsIO.Write("┘"); //"┘" "╝"
-                        else ConsIO.Write("─"); //"─" "═"
-                    }
-                    else
-                    {
-                        if (j == 0)
-                        {
-                            ConsIO.SetCursorPosition(LeftOffsetX + circle.X + j, TopOffsetY + circle.Y + i);
-                            ConsIO.Write("│"); //"│" "║"
-                        }
-                        if (j == circle.Radius)
-                        {
-                            ConsIO.SetCursorPosition(LeftOffsetX + circle.X + j, TopOffsetY + circle.Y + i);
-                            ConsIO.Write("│"); //"│" "║"
-                        }
-                    }
-                }
-            }
-            */
         }
         
-        /// <summary>
-        /// Draws specified Circle in the last line of window
-        /// </summary>
-        /// <param name="circle"></param>
-        private void DrawInLastLine(Circle circle)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < circle.Diameter; j++)
-            {
-                for (var i = 0; i < circle.Radius; i++)
-                {
-                    if (j == 0)
-                    {
-
-                        if (i == 0) sb.Append("┌"); //"┌" "╔"
-                        if (i == circle.Radius - 1) sb.Append("┐" + "\n"); //"┐" "╗"
-                        else sb.Append("─"); //"─" "═"
-                    }
-                    else if (j == circle.Diameter - 1)
-                    {
-                        if (i == 0) sb.Append("└"); //"└" "╚"
-                        if (i == circle.Radius - 1) sb.Append("┘" + "\n"); //"┘" "╝"
-                        else sb.Append("─"); //"─" "═"
-                    }
-                    else
-                    {
-                        if (i == 0) sb.Append("│"); //"│" "║"
-                        if (i == circle.Radius - 1) sb.Append("│" + "\n"); //"│" "║"
-                        else sb.Append(" ");
-                    }
-                }
-            }
-            string s = $"Drawing Circle: {circle.X}, {circle.Y}; {circle.X - circle.Right}, {circle.Bottom}";
-            ConsIO.WriteLine(s);
-            ConsIO.WriteLine(sb.ToString());
-        }
-
+        
         /// <summary>
         /// Draws every Circle from array
         /// </summary>
@@ -990,11 +799,11 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
 
             int[] minsY = new int[circles.Length];
             int[] minsX = new int[circles.Length];
-
+            
             for (int i = 0; i < circles.Length; i++)
             {
-                minsY[i] = circles[i].Y;
-                minsX[i] = circles[i].X;
+                minsY[i] = circles[i].Top;
+                minsX[i] = circles[i].Left;
             }
             _minY = MyMath.Min(minsY);
             _absMinY = Math.Abs(_minY);
@@ -1004,17 +813,23 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             // Setting coordinates to start from 0,0
             SetCoordsTo0(circles);
             GetBounds(ref x1, ref x2, ref y1, ref y2, circles);
+            
             // Drawing Circles
-            foreach (var rect in circles)
+            foreach (var circle in circles)
             {
-                rect.DrawFrom00 = true;
-                rect.Draw();
+                circle.DrawFrom00 = true;
+                circle.Draw();
             }
             // Resetting coordinates to original value
             ResetCoordsFrom0(circles);
             ConsIO.SetCursorPosition(0, y2 + 1);
         }
 
+        /// <summary>
+        /// Returns an int[n,2] array with coordinates
+        /// where to draw a circle. 
+        /// </summary>
+        /// <returns></returns>
         private int[,] CirclePath()
         {
             var n = Diameter;
@@ -1028,21 +843,11 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 pathBottom[i-1, 0] = Left + i;
                 pathBottom[i-1, 1] = Y + (int) Math.Sqrt(Radius * Radius - (Left + i - X) * (Left + i - X));
             }
-
             pathTop[0, 0] = Left;
             pathTop[0, 1] = Y;
             pathBottom[n, 0] = Right;
             pathBottom[n, 1] = Y;
-            /*for (int i = 0; i <= n; i++)
-            {
-                ConsIO.SetCursorPosition(LeftOffsetX + pathTop[i, 0],
-                    TopOffsetY + pathTop[i, 1]);
-                ConsIO.Write("*");
-                ConsIO.SetCursorPosition(LeftOffsetX + pathBottom[i, 0],
-                    TopOffsetY + pathBottom[i, 1]);
-                ConsIO.Write("*");
-            }*/
-            
+            // Getting full path
             for (int i = 0; i < n + 1; i++)
             {
                 path[i, 0] = pathTop[i, 0];
@@ -1053,10 +858,6 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 int temp = pathBottom[i - n - 1, 0];
                 path[i, 0] = pathBottom[i - n - 1, 0];
                 path[i, 1] = pathBottom[i - n - 1, 1];
-                if (i == 14)
-                {
-                    i = i;
-                }
             }
             
             return path;
