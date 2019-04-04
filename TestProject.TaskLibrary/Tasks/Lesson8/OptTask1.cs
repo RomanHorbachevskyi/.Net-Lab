@@ -67,6 +67,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             par.Draw();
 
             ConsIO.ClearBottom(ref offsetBottom);
+            ConsIO.ReadLine();
         }
         
     }

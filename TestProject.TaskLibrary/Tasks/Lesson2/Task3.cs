@@ -33,6 +33,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             ConsIO.WriteLine("Circle with Radius={1} has Area={0}", crl.Area(ref R), R);
             ConsIO.WriteLine();
             ConsIO.ReadLine();
+            ConsIO.ReadLine();
         }
     }
 

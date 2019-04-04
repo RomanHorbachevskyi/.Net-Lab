@@ -13,6 +13,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson1
             ConsIO.WriteLine("*** Now you are in Lesson1.Task2 ***\n    Creating X-0 game in WinForms.");
             ConsIO.WriteLine("    Sorry, To check Lesson1.Task2 we need to use Forms instead of .NET Core.\n");
             ConsIO.WriteLine("    So open another solution: \"X_0.sln\" \n");
+            ConsIO.ReadLine();
         }
     }
 }

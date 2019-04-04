@@ -28,6 +28,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
             rc.Draw();
             ConsIO.WriteLine("  as Figure ");
             ((FigureVirtual) rc).Draw();
+            ConsIO.ReadLine();
         }
     }
 

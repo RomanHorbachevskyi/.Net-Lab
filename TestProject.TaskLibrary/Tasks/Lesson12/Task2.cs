@@ -59,6 +59,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson12
             }
             
             ConsIO.WriteLine("\n\n");
+            ConsIO.ReadLine();
         }
     }
 }

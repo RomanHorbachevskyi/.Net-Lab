@@ -96,10 +96,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
             {
                 ConsIO.WriteLine("\nExecuting block Finally.\n");
             }
+            ConsIO.ReadLine();
         }
-
-        
     }
-
-    
 }

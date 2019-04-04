@@ -18,7 +18,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
             s = ConsIO.ReadLine();
             ConsIO.CheckForExitTask(ref s);
             ConsIO.WriteLine("We did not get IndexOutOfRangeException. Value is: " + IndexRangeDestroyer.IndexOutOfRangeException().ToString());
-            
+            ConsIO.ReadLine();
         }
     }
     public class IndexRangeDestroyer

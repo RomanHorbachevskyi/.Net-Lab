@@ -48,6 +48,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson3
             s = ConsIO.ReadLine();
             ConsIO.CheckForExitTask(ref s);
             p1.CompareAge(Validators.GetIntPositiveNumber(s));
+            ConsIO.ReadLine();
         }
     }
 

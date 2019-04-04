@@ -46,6 +46,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
             {
                 ConsIO.WriteLine();
             }
+            ConsIO.ReadLine();
         }
 
         public static void DoSomeMath(int a, int b)

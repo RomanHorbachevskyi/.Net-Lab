@@ -47,6 +47,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             ConsIO.WriteLine("has Perimeter: " + rec.Perimeter());
             ConsIO.WriteLine("has Area: " + rec.Area());
             ConsIO.WriteLine();
+            ConsIO.ReadLine();
         }
         
     }

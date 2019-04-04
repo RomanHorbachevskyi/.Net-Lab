@@ -83,8 +83,9 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             ConsIO.ReadLine();
             ConsIO.WriteLine("({0}{1}i)/({2}{3}i)==({4}{5}i)", c1.Real, c1_im, c2.Real, c2_im, c4.Real, c4_im);
             ConsIO.ReadLine();
-            
+
             #endregion
+            ConsIO.ReadLine();
         }
     }
 

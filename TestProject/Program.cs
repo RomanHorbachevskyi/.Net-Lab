@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.Design;
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using TestProject.TaskSelector;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Properties;
 using TestProject.TaskLibrary.Tasks.Lesson1;
 using TestProject.TaskLibrary.Tasks.Lesson2;
 using TestProject.TaskLibrary.Tasks.Lesson3;
@@ -20,110 +29,137 @@ namespace TestProject
 {
     class Program
     {
+        public static volatile string CurrentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+        public static Dictionary<string, string> CultureDictionary =
+            new Dictionary<string, string>{{"uk", "uk-UA"}};
+
         static void Main(string[] args)
         {
-            //List of .NetLab Tasks
-            var tasks = new IRunnable[]
+            string culture = CultureDictionary[CurrentCulture];
+            if (!String.IsNullOrEmpty(culture))
             {
-                new TaskLibrary.Tasks.Lesson1.Task1(),
-                new TaskLibrary.Tasks.Lesson1.Task2(),
-                new TaskLibrary.Tasks.Lesson2.Task1(),
-                new TaskLibrary.Tasks.Lesson2.Task2(),
-                new TaskLibrary.Tasks.Lesson2.Task3(),
-                new TaskLibrary.Tasks.Lesson2.Task4(),
-                new TaskLibrary.Tasks.Lesson2.Task5(),
-                new TaskLibrary.Tasks.Lesson3.Task1(),
-                new TaskLibrary.Tasks.Lesson3.Task2(),
-                new TaskLibrary.Tasks.Lesson4.OptTask1(),
-                new TaskLibrary.Tasks.Lesson4.Task1(),
-                new TaskLibrary.Tasks.Lesson4.Task2(),
-                new TaskLibrary.Tasks.Lesson4.Task3(),
-                new TaskLibrary.Tasks.Lesson4.Task4(),
-                new TaskLibrary.Tasks.Lesson5.Task1(),
-                new TaskLibrary.Tasks.Lesson5.Task2(),
-                new TaskLibrary.Tasks.Lesson5.Task3(),
-                new TaskLibrary.Tasks.Lesson5.Task4(),
-                new TaskLibrary.Tasks.Lesson5.Task5(),
-                new TaskLibrary.Tasks.Lesson6.CW_Task1(),
-                new TaskLibrary.Tasks.Lesson6.CW_Task2(),
-                new TaskLibrary.Tasks.Lesson6.Task1(),
-                new TaskLibrary.Tasks.Lesson6.Task2(),
-                new TaskLibrary.Tasks.Lesson6.Task3(),
-                new TaskLibrary.Tasks.Lesson6.OptTask1(),
-                new TaskLibrary.Tasks.Lesson6.OptTask2(),
-                new TaskLibrary.Tasks.Lesson8.OptTask1(),
-                new TaskLibrary.Tasks.Lesson8.Task1(),
-                new TaskLibrary.Tasks.Lesson8.Task2(),
-                new TaskLibrary.Tasks.Lesson9.CW_LINQ(),
-                new TaskLibrary.Tasks.Lesson9.Task1_4(),
-                new TaskLibrary.Tasks.Lesson9.Task5(),
-                new TaskLibrary.Tasks.Lesson11.Task1(),
-                new TaskLibrary.Tasks.Lesson11.Task2(),
-                new TaskLibrary.Tasks.Lesson11.Task3(),
-                new TaskLibrary.Tasks.Lesson11.Task4(),
-                new TaskLibrary.Tasks.Lesson12.Task1(),
-                new TaskLibrary.Tasks.Lesson12.Task2(),
-
-            };
-            
-            ConsIO.WriteLine("***** Instructions *****");
-            ConsIO.WriteLine("When you are in the Task, to Quit testing press \"q\" or \"b\".\n");
-            
-            NextTask:
-            ConsIO.WriteLine("What do you want to do, check All Tasks (\"a\") or some specific (\"s\"):");
-            string s = ConsIO.ReadLine().ToLower();
-            
-            //checking entered text(letter)
-            while ((s != "a") & (s != "s"))
-            {
-                ConsIO.CheckForExitTask(ref s);
-                ConsIO.WriteLine("Entered incorrect value.\nEnter \"q\" or \"a\" or \"s\"");
-                s = ConsIO.ReadLine();
+                CultureInfo ci = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+                ConsIO.OutputEncoding = Encoding.Unicode;
             }
+
+            ConsIO.WriteLine($"***** {Resources.Instructions} *****");
+            ConsIO.WriteLine($"{Resources.WhenYouAreInTheTasktoQuitTestingPressQOrB}\n");
+
+            string nameOfAssembly = "TestProject.TaskLibrary";
+            TasksInProjectByReflection.NameOfAssemblyToLoad = nameOfAssembly;
             
-            //creating the array to make possible Task selection
-            string[] tasksNames = new string[tasks.Length];
+            var loadedTypes = TasksInProjectByReflection.LoadedTypes;
 
-            int i = 0;
-            switch (s)
+            // Names of lessons without another namespaces
+            string[] loadedLessons = TasksInProjectByReflection.LoadedLessons;
+
+            string s;
+
+            NextTask:
+            s = Selector.WhatToDO();
+
+            //ConsIO.WriteLine($"{Resources.WhatDoYouWantToDoCheckAllTasksOrSomeSpecific}");
+
+            //s = ConsIO.ReadLine().ToLower();
+
+            ////checking entered text(letter)
+            //while ((s.ToLower() != Resources.aToCheckAllTasks) & (s.ToLower() != Resources.sToCheckSpecificTask))
+            //{
+            //    ConsIO.CheckForExitTask(ref s);
+            //    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
+            //    ConsIO.WriteLine(Resources.EnterQOrAOrS);
+            //    s = ConsIO.ReadLine();
+            //}
+
+            if (s== Resources.sToCheckSpecificTask)
             {
-                case "s":
-                {
-                    ConsIO.WriteLine("\n*** There are {0} Tasks: ***", tasks.Length);
-                    foreach (var task in tasks)
-                    {
-                        ConsIO.WriteLine(i+ ":   "+ task);
-                        tasksNames[i] = task.ToString();
-                        ++i;
-                    }
-                    ConsIO.WriteLine("\nChoose needed one:");
-                    s = ConsIO.ReadLine();
-                    while ((!Int32.TryParse(s, out i)) | (i-1>tasks.Length))
-                    {
-                        ConsIO.WriteLine("Entered incorrect value.\nEnter only digits inside bounds: ");
-                        s = ConsIO.ReadLine();
-                    }
+                ConsIO.WriteLine();
 
-                    foreach (var task in tasks)
+                int counter = 0;
+                string[] lessons = new string[loadedLessons.Length];
+                
+                foreach (var loadedLesson in loadedLessons)
+                {
+                    lessons[counter] = loadedLesson.Substring(loadedLesson.IndexOf("Lesson"))
+                        .Replace("Lesson", $"{Resources.Lesson} ");
+                    counter += 1;
+                    ConsIO.WriteLine(counter + ". " + lessons[counter - 1]);
+                }
+                
+                int i = 0;
+                int t = 0;
+                
+                ConsIO.Write($"\n{Resources.ChooseNeededLessonFromListAbove} ({Resources.numbersOnLeft}): ");
+                
+                s = ConsIO.ReadLine();
+                ConsIO.CheckForExitTask(ref s);
+                while ((!Int32.TryParse(s, out i)) | (i > lessons.Length))
+                {
+                    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
+                    ConsIO.WriteLine($"{Resources.EnterOnlyDigitsInsideBounds} ");
+                    s = ConsIO.ReadLine();
+                    ConsIO.CheckForExitTask(ref s);
+                }
+
+                var loadedTasks = loadedTypes
+                    .Where(typ => typ.Namespace != null && typ.Namespace.StartsWith(nameOfAssembly)
+                                                        && typ.Namespace.EndsWith(loadedLessons[i-1]))
+                    .OrderBy(tsk => tsk.Name);
+
+                var taskNames = new string[loadedTasks.Count()];
+
+                counter = 0;
+                foreach (var task in loadedTasks)
+                {
+                    taskNames[counter] = task.Name.Replace("Task", $"{Resources.Task} ");
+                    counter += 1;
+                    ConsIO.WriteLine($"   {counter}. {taskNames[counter - 1]}");
+                }
+                
+                ConsIO.Write($"\n{Resources.ChooseNeededTaskFromListAbove} {Resources.numbersOnLeft} ",
+                    taskNames.Length);
+                s = ConsIO.ReadLine();
+                ConsIO.CheckForExitTask(ref s);
+                while ((!int.TryParse(s, out t)) | (t > taskNames.Length))
+                {
+                    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
+                    ConsIO.WriteLine($"{Resources.EnterOnlyDigitsInsideBounds} ");
+                    s = ConsIO.ReadLine();
+                    ConsIO.CheckForExitTask(ref s);
+                }
+
+                counter = 0;
+                foreach (var loadedTask in loadedTasks)
+                {
+                    if (counter == t-1)
                     {
-                        if (tasksNames[i] != task.ToString()) continue;
-                        task.Run();
+                        Type type = loadedTypes.First(typ => typ == loadedTask);
+                        
+                        var instance = Activator.CreateInstance(type);
+                        MethodInfo taskInfo = loadedTask.GetMethod("Run", BindingFlags.Instance | BindingFlags.Public);
+                        taskInfo.Invoke(instance, null);
                         break;
                     }
 
-                    goto NextTask;
+                    counter += 1;
                 }
-                case "a":
-                {
-                    foreach (var task in tasks)
-                    {
-                        task.Run();
-                    }
-
-                    ConsIO.ReadLine();
-                    break;
-                }
+                
             }
+            else if (s==Resources.aToCheckAllTasks)
+            {
+                foreach (var task in loadedTypes)
+                {
+                    Type type = loadedTypes.First(typ => typ == task);
+                    var instance = Activator.CreateInstance(type);
+                    MethodInfo taskInfo = task.GetMethod("Run", BindingFlags.Instance | BindingFlags.Public);
+                    taskInfo.Invoke(instance, null);
+                }
+                ConsIO.ReadLine();
+            }
+            goto NextTask;
         }
     }
 }

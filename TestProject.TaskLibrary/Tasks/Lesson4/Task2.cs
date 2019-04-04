@@ -20,6 +20,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
             sq.Draw();
             var rc = new RectangleByAbstract(15,15);
             rc.Draw();
+            ConsIO.ReadLine();
         }
     }
 

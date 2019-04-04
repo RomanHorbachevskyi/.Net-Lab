@@ -74,8 +74,10 @@ namespace TestProject.TaskLibrary.Tasks.Lesson9
             }
             
             Lesson6.Task3.DisplayPage(pageToPrint, sortedElements);
-            
+
             #endregion
+
+            ConsIO.ReadLine();
         }
     }
 }

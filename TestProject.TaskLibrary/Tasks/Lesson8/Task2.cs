@@ -605,11 +605,39 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         /// <returns></returns>
         public static int[,] Intersect(Circle a, Circle b)
         {
-            
-            var x1 = Math.Max(a.X, b.X);    //
-            var x2 = Math.Min(a.X + a.Radius, b.X + b.Radius);  //
-            var y1 = Math.Max(a.Y, b.Y);    //
-            var y2 = Math.Min(a.Y + a.Diameter, b.Y + b.Diameter);  //
+            var aPath = a.CirclePath();
+            var bPath = b.CirclePath();
+            int[,] path;
+            int minX, maxX;
+            int yForMin, yForMax;
+
+            if (a.FindCircleCircleIntersections(b, out var x1, out var y1,
+                    out var x2, out var y2) == 2)
+            {
+                if (x1 < x2 || (x1==x2 & y1 < y2))
+                {
+                    minX = x1;
+                    yForMin = y1;
+                    maxX = x2;
+                    yForMax = y2;
+                }
+                else if (x2 < x1 || (x1 == x2 & y2 < y1))
+                {
+                    minX = x2;
+                    yForMin = y2;
+                    maxX = x1;
+                    yForMax = y1;
+                }
+                
+                for (int i = 0; i < aPath.GetLength(0); i++)
+                {
+                    //if (aPath[i,0])
+                    {
+                        
+                    }
+                }
+            }
+
 
             if (x2 >= x1
                 && y2 >= y1)
@@ -622,16 +650,78 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         }
 
         /// <summary>
+        /// Finds the points where the two circles intersect.
+        /// Result 0 if no intersection or 1 point. Else result 2.
+        /// </summary>
+        /// <param name="circle">The second circle</param>
+        /// <param name="x1">X coordinate of 1st point</param>
+        /// <param name="y1">Y coordinate of 1st point</param>
+        /// <param name="x2">X coordinate of 2st point</param>
+        /// <param name="y2">Y coordinate of 2st point</param>
+        /// <returns></returns>
+        private int FindCircleCircleIntersections(Circle circle,
+            out int x1, out int y1, out int x2, out int y2)
+        {
+            // Find the distance between the centers.
+            int dx = this.X - circle.X;
+            int dy = this.Y - circle.Y;
+            double dist = Math.Sqrt(dx * dx + dy * dy);
+
+            // See how many solutions there are.
+            if (dist > this.Radius + circle.Radius)
+            {
+                // No solutions, the circles are too far apart.
+                x1 = 0; y1 = 0;
+                x2 = 0; y2 = 0;
+                return 0;
+            }
+            else if (dist < Math.Abs(this.Radius - circle.Radius))
+            {
+                // No solutions, one circle contains the other.
+                x1 = 0; y1 = 0;
+                x2 = 0; y2 = 0;
+                return 0;
+            }
+            else if ((dist == 0) && (this.Radius == circle.Radius))
+            {
+                // No solutions, the circles coincide.
+                x1 = 0; y1 = 0;
+                x2 = 0; y2 = 0;
+                return 0;
+            }
+            else
+            {
+                // Find a and h.
+                double a = (this.Radius * this.Radius -
+                            circle.Radius * circle.Radius + dist * dist) / (2 * dist);
+                double h = Math.Sqrt(this.Radius * this.Radius - a * a);
+
+                // Find P2.
+                double cx2 = this.X + a * (circle.X - this.X) / dist;
+                double cy2 = this.Y + a * (circle.Y - this.Y) / dist;
+
+                // Get the points P3.
+                x1 = (int) (cx2 + h * (circle.Y - this.Y) / dist);
+                y1 = (int) (cy2 - h * (circle.X - this.X) / dist);
+                x2 = (int) (cx2 - h * (circle.Y - this.Y) / dist);
+                y2 = (int) (cy2 + h * (circle.X - this.X) / dist);
+
+                // See if we have 1 or 2 solutions.
+                if (dist == this.Radius + circle.Radius) return 0;
+                return 2;
+            }
+        }
+
+
+        /// <summary>
         /// Determines if this Circle intersects with rect.
         /// </summary>
-        /// <param name="rect"></param>
+        /// <param name="circle"></param>
         /// <returns></returns>
-        public bool IntersectsWith(Circle rect)
+        public bool IntersectsWith(Circle circle)
         {
-            return (rect.X < X + Radius) &&
-                   (X < (rect.X + rect.Radius)) &&
-                   (rect.Y < Y + Diameter) &&
-                   (Y < rect.Y + rect.Diameter);
+            return FindCircleCircleIntersections(circle, out var x1, out var y1,
+                out var x2, out var y2)==2;
         }
 
         /// <summary>
@@ -645,8 +735,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             int x1 = Math.Min(a.X, b.X);
             int x2 = Math.Max(a.X + a.Radius, b.X + b.Radius);
             int y1 = Math.Min(a.Y, b.Y);
-            int y2 = Math.Max(a.Y + a.Diameter, b.Y + b.Diameter);
-
+            
             return new Circle(x1, y1, x2 - x1);
         }
         /// <summary>

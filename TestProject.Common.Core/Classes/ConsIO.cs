@@ -9,6 +9,15 @@ namespace TestProject.Common.Core.Classes
     public static class ConsIO
     {
         /// <summary>
+        /// Gets or sets the encoding to write output.
+        /// </summary>
+        public static System.Text.Encoding OutputEncoding
+        {
+            get { return Console.OutputEncoding; }
+            set { Console.OutputEncoding = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the height of the console window area.
         /// </summary>
         public static int WindowHeight

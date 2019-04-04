@@ -12,6 +12,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson1
         {
             ConsIO.WriteLine("*** Now you are in Lesson1.Task1 ***");
             ConsIO.WriteLine ("    Hello, world!\n");
+            ConsIO.ReadLine();
         }
     }
 }

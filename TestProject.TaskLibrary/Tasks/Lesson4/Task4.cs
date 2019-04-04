@@ -25,6 +25,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson4
             s = "Doing method DrawAll() in class Lesson4.Task4";
             ConsIO.WriteLine(s);
             DrawAll(sq,rc, fg);
+            ConsIO.ReadLine();
         }
         public static void DrawAll(params IDrawable[] array)
         {

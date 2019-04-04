@@ -72,6 +72,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
                     ConsIO.WriteLine("Entered incorrect value for shape.");
                     goto NextTry;
             }
+            ConsIO.ReadLine();
         }
 
         /// <summary>

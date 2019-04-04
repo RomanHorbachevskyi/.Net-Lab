@@ -18,11 +18,9 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
             ConsIO.CheckForExitTask(ref s);
-            ConsIO.WriteLine("We did not get StackOverflowException. Value is: " + StackDestroyer.GetStackOverflowException().ToString());            
+            ConsIO.WriteLine("We did not get StackOverflowException. Value is: " + StackDestroyer.GetStackOverflowException().ToString());
+            ConsIO.ReadLine();
         }
-
-        
-
     }
     public class StackDestroyer
     {

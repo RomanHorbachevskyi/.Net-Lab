@@ -110,8 +110,9 @@ namespace TestProject.TaskLibrary.Tasks.Lesson6
             }
             
             DisplayPage(pageToPrint, strElements);
-            
+
             #endregion
+            ConsIO.ReadLine();
         }
 
         /// <summary>
