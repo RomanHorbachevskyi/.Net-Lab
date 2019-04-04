@@ -9,10 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Common.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.TaskLibrary", "TestProject.TaskLibrary\TestProject.TaskLibrary.csproj", "{8AA8B4FD-C18E-4979-88DB-FD7A2A7891FE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjectWeb", "TestProjectWeb\TestProjectWeb.csproj", "{D12A64C5-D5D1-4D4F-94B8-A248B04B2191}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.TaskLibrary.MSTest", "TestProject.TaskLibrary.MSTest\TestProject.TaskLibrary.MSTest.csproj", "{1FBE7DEB-35D3-4089-BB0D-D15512679021}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.TaskLibrary.NUnit_Tests", "TestProject.TaskLibrary.NUnit_Tests\TestProject.TaskLibrary.NUnit_Tests.csproj", "{EC32C35B-35C8-4CDA-9090-C3167C38C09E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.TaskLibrary.CalculatorsForUnitTest", "TestProject.TaskLibrary.CalculatorsForUnitTest\TestProject.TaskLibrary.CalculatorsForUnitTest.csproj", "{A7025F04-500E-4616-85D4-EB9383B2F5CF}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -30,12 +35,29 @@ Global
 		{8AA8B4FD-C18E-4979-88DB-FD7A2A7891FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AA8B4FD-C18E-4979-88DB-FD7A2A7891FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AA8B4FD-C18E-4979-88DB-FD7A2A7891FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12A64C5-D5D1-4D4F-94B8-A248B04B2191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12A64C5-D5D1-4D4F-94B8-A248B04B2191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12A64C5-D5D1-4D4F-94B8-A248B04B2191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12A64C5-D5D1-4D4F-94B8-A248B04B2191}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FBE7DEB-35D3-4089-BB0D-D15512679021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FBE7DEB-35D3-4089-BB0D-D15512679021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FBE7DEB-35D3-4089-BB0D-D15512679021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC32C35B-35C8-4CDA-9090-C3167C38C09E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC32C35B-35C8-4CDA-9090-C3167C38C09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC32C35B-35C8-4CDA-9090-C3167C38C09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7025F04-500E-4616-85D4-EB9383B2F5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7025F04-500E-4616-85D4-EB9383B2F5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7025F04-500E-4616-85D4-EB9383B2F5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7025F04-500E-4616-85D4-EB9383B2F5CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC40126-E63C-4663-908F-E59B59694DF7}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
