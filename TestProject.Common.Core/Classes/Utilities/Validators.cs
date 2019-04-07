@@ -14,7 +14,7 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <returns></returns>
         public static int GetIntPositiveNumber(string s)
         {
-            ConsIO.CheckForExitTask(ref s);
+            CheckForExitTask(ref s);
             int value;
             while ((Int32.TryParse(s, out value) == false) || (value <= 0))
             {
@@ -32,7 +32,7 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <returns></returns>
         public static int GetIntNumber(string s)
         {
-            ConsIO.CheckForExitTask(ref s);
+            CheckForExitTask(ref s);
             int value;
             while ((Int32.TryParse(s, out value) == false))
             {
@@ -50,9 +50,9 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <returns></returns>
         public static double GetDoublePositiveNumber(string s)
         {
-            ConsIO.CheckForExitTask(ref s);
+            CheckForExitTask(ref s);
             double value;
-            while ((double.TryParse(s, out value) == false) || (value <= 0))
+            while ((Double.TryParse(s, out value) == false) || (value <= 0))
             {
                 ConsIO.WriteLine("Entered incorrect value. Enter only positive double numbers.");
                 s = ConsIO.ReadLine();
@@ -68,9 +68,9 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <returns></returns>
         public static double GetDoubleNumber(string s)
         {
-            ConsIO.CheckForExitTask(ref s);
+            CheckForExitTask(ref s);
             double value;
-            while ((double.TryParse(s, out value) == false))
+            while ((Double.TryParse(s, out value) == false))
             {
                 ConsIO.WriteLine("Entered incorrect value. Enter only double numbers.");
                 s = ConsIO.ReadLine();
@@ -80,7 +80,7 @@ namespace TestProject.Common.Core.Classes.Utilities
         }
 
         /// <summary>
-        /// Returns index iniside bounds else asks to enter value one more time.
+        /// Returns index inside bounds else asks to enter value one more time.
         /// </summary>
         /// <param name="i">Index</param>
         /// <param name="lowerBound"></param>
@@ -117,6 +117,18 @@ namespace TestProject.Common.Core.Classes.Utilities
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Checks entered value do we want to break current task.
+        /// </summary>
+        /// <param name="tmpS">Entered string from the outstream</param>
+        public static void CheckForExitTask(ref string tmpS)
+        {
+            if ((tmpS.ToLower() == "q") | (tmpS.ToLower() == "b"))
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }

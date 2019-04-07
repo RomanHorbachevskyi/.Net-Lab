@@ -133,18 +133,6 @@ namespace TestProject.Common.Core.Classes
             Console.SetCursorPosition(left,top);
         }
 
-        /// <summary>
-        /// Checks entered value do we want to break current task.
-        /// </summary>
-        /// <param name="s">Entered string from the outstream</param>
-        public static void CheckForExitTask(ref string s)
-        {
-            if ((s.ToLower() == "q") | (s.ToLower() == "b"))
-            {
-                Environment.Exit(0);
-            }
-        }
-
         public static void Clear()
         {
             Console.Clear();
