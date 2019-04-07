@@ -11,9 +11,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using TestProject.TaskSelector;
+using TestProject.Classes.TaskSelector;
+using TestProject.Classes;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 using TestProject.Properties;
 using TestProject.TaskLibrary.Tasks.Lesson1;
 using TestProject.TaskLibrary.Tasks.Lesson2;
@@ -37,6 +39,8 @@ namespace TestProject
         static void Main(string[] args)
         {
             string culture = CultureDictionary[CurrentCulture];
+            string tempS;
+
             if (!String.IsNullOrEmpty(culture))
             {
                 CultureInfo ci = new CultureInfo(culture);
@@ -47,119 +51,39 @@ namespace TestProject
 
             ConsIO.WriteLine($"***** {Resources.Instructions} *****");
             ConsIO.WriteLine($"{Resources.WhenYouAreInTheTasktoQuitTestingPressQOrB}\n");
-
-            string nameOfAssembly = "TestProject.TaskLibrary";
-            TasksInProjectByReflection.NameOfAssemblyToLoad = nameOfAssembly;
             
-            var loadedTypes = TasksInProjectByReflection.LoadedTypes;
+            var loader = new AssemblyLoader();
+            var lNewTypes = loader.LoadedPublicRunnableTypes;
+            var taskManager = new TaskManager(loader.AssemblyName, lNewTypes);
+            var selector = new Selector(loader.AssemblyName, taskManager);
 
-            // Names of lessons without another namespaces
-            string[] loadedLessons = TasksInProjectByReflection.LoadedLessons;
-
-            string s;
-
-            NextTask:
-            s = Selector.WhatToDO();
-
-            //ConsIO.WriteLine($"{Resources.WhatDoYouWantToDoCheckAllTasksOrSomeSpecific}");
-
-            //s = ConsIO.ReadLine().ToLower();
-
-            ////checking entered text(letter)
-            //while ((s.ToLower() != Resources.aToCheckAllTasks) & (s.ToLower() != Resources.sToCheckSpecificTask))
-            //{
-            //    ConsIO.CheckForExitTask(ref s);
-            //    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
-            //    ConsIO.WriteLine(Resources.EnterQOrAOrS);
-            //    s = ConsIO.ReadLine();
-            //}
-
-            if (s== Resources.sToCheckSpecificTask)
+            do
             {
-                ConsIO.WriteLine();
+                tempS = selector.WhatToDo();
 
-                int counter = 0;
-                string[] lessons = new string[loadedLessons.Length];
-                
-                foreach (var loadedLesson in loadedLessons)
+                if (tempS == Resources.LetterSForSpecificTask)
                 {
-                    lessons[counter] = loadedLesson.Substring(loadedLesson.IndexOf("Lesson"))
-                        .Replace("Lesson", $"{Resources.Lesson} ");
-                    counter += 1;
-                    ConsIO.WriteLine(counter + ". " + lessons[counter - 1]);
-                }
-                
-                int i = 0;
-                int t = 0;
-                
-                ConsIO.Write($"\n{Resources.ChooseNeededLessonFromListAbove} ({Resources.numbersOnLeft}): ");
-                
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                while ((!Int32.TryParse(s, out i)) | (i > lessons.Length))
-                {
-                    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
-                    ConsIO.WriteLine($"{Resources.EnterOnlyDigitsInsideBounds} ");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                }
-
-                var loadedTasks = loadedTypes
-                    .Where(typ => typ.Namespace != null && typ.Namespace.StartsWith(nameOfAssembly)
-                                                        && typ.Namespace.EndsWith(loadedLessons[i-1]))
-                    .OrderBy(tsk => tsk.Name);
-
-                var taskNames = new string[loadedTasks.Count()];
-
-                counter = 0;
-                foreach (var task in loadedTasks)
-                {
-                    taskNames[counter] = task.Name.Replace("Task", $"{Resources.Task} ");
-                    counter += 1;
-                    ConsIO.WriteLine($"   {counter}. {taskNames[counter - 1]}");
-                }
-                
-                ConsIO.Write($"\n{Resources.ChooseNeededTaskFromListAbove} {Resources.numbersOnLeft} ",
-                    taskNames.Length);
-                s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
-                while ((!int.TryParse(s, out t)) | (t > taskNames.Length))
-                {
-                    ConsIO.WriteLine(Resources.EnteredIncorrectValue);
-                    ConsIO.WriteLine($"{Resources.EnterOnlyDigitsInsideBounds} ");
-                    s = ConsIO.ReadLine();
-                    ConsIO.CheckForExitTask(ref s);
-                }
-
-                counter = 0;
-                foreach (var loadedTask in loadedTasks)
-                {
-                    if (counter == t-1)
+                    ConsIO.WriteLine();
+                    selector.Show();
+                    
+                    int i = 0;
+                    
+                    do
                     {
-                        Type type = loadedTypes.First(typ => typ == loadedTask);
-                        
-                        var instance = Activator.CreateInstance(type);
-                        MethodInfo taskInfo = loadedTask.GetMethod("Run", BindingFlags.Instance | BindingFlags.Public);
-                        taskInfo.Invoke(instance, null);
-                        break;
-                    }
-
-                    counter += 1;
+                        tempS = ConsIO.ReadLine();
+                        Classes.Validators.CheckForExitTask(ref tempS);
+                        selector.TryGetIndex(ref tempS, ref i);
+                        selector.SelectMemberByIndex(i);
+                    } while (selector.TaskWasRunning == false);
                 }
-                
-            }
-            else if (s==Resources.aToCheckAllTasks)
-            {
-                foreach (var task in loadedTypes)
+                else if (tempS == Resources.LetterAToCheckAllTasks)
                 {
-                    Type type = loadedTypes.First(typ => typ == task);
-                    var instance = Activator.CreateInstance(type);
-                    MethodInfo taskInfo = task.GetMethod("Run", BindingFlags.Instance | BindingFlags.Public);
-                    taskInfo.Invoke(instance, null);
+                    foreach (var (key, task) in taskManager.AllTasks)
+                    {
+                        selector.Run(task);
+                    }
                 }
-                ConsIO.ReadLine();
-            }
-            goto NextTask;
+            } while (tempS.ToLower() != Resources.qToQuitTesting.ToLower() | tempS.ToLower() != Resources.bToQuitTesting.ToLower());
         }
     }
 }

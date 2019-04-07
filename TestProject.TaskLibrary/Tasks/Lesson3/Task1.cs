@@ -26,19 +26,19 @@ namespace TestProject.TaskLibrary.Tasks.Lesson3
             s = "Set Name:";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             p1.Name = s;
 
             s = "Set Surname:";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             p1.Surname = s;
 
             s = "Set Age:";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             p1.Age = Validators.GetIntPositiveNumber(s);
 
             #endregion
@@ -46,7 +46,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson3
             s = "\nEnter value to compare age:";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             p1.CompareAge(Validators.GetIntPositiveNumber(s));
             ConsIO.ReadLine();
         }

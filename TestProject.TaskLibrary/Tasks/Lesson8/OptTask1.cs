@@ -26,27 +26,27 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             
             ConsIO.Write("Enter coordinates and dimensions of parallelepiped.\n  X: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             X = Validators.GetIntNumber(s);
             ConsIO.Write("  Y: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             Y = Validators.GetIntNumber(s);
             ConsIO.Write("  Z: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             Z = Validators.GetIntNumber(s);
             ConsIO.Write("  Width: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             Width = Validators.GetIntNumber(s);
             ConsIO.Write("  Length: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             Length = Validators.GetIntNumber(s);
             ConsIO.Write("  Height: ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             Height = Validators.GetIntNumber(s);
 
             Parallelepiped.LeftOffsetX = 11;

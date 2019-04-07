@@ -23,7 +23,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.WriteLine(s);
             ConsIO.Write("How many Circles do you want to draw?:  ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             CirclesCount = Validators.GetIntPositiveNumber(s);
 
             Circles = new Circle[CirclesCount];
@@ -72,7 +72,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.ClearBottom(ref offsetBottom);
             ConsIO.Write($"What to do now? [M]ove Circle, [R]esize, create [I]ntersected, [S]mallest or [Q]uit?:  ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
 
             if (s.ToLower() == "m")
             {
@@ -257,7 +257,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 ConsIO.ClearBottom(ref Circle.OffsetBottom);
                 ConsIO.Write("\rEntered incorrect value! Allowed only L,T, B, R, C:  ");
                 s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
             }
 
             return s;
@@ -275,7 +275,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         {
             ConsIO.Write(description);
             description = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref description);
+            Validators.CheckForExitTask(ref description);
             result = Validators.GetIntNumber(description);
         }
         /// <summary>
@@ -290,7 +290,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         {
             ConsIO.Write(description);
             description = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref description);
+            Validators.CheckForExitTask(ref description);
             result = Validators.GetIntPositiveNumber(description);
         }
 

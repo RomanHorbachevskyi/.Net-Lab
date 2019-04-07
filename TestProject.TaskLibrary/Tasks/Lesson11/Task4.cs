@@ -19,16 +19,16 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
                        "\nTo continue press 'Enter' key.";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             try
             {
                 ConsIO.Write("Enter a: ");
                 s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
                 a = Validators.GetIntNumber(s);
                 ConsIO.Write("Enter b: ");
                 s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
                 b = Validators.GetIntNumber(s);
                 DoSomeMath(a, b);
             }

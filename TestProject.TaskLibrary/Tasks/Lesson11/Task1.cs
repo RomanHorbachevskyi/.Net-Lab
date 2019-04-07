@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson11
 {
@@ -17,7 +18,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson11
                        "\nTo continue press 'Enter' key.";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             ConsIO.WriteLine("We did not get StackOverflowException. Value is: " + StackDestroyer.GetStackOverflowException().ToString());
             ConsIO.ReadLine();
         }

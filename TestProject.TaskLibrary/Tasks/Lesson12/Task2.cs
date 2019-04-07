@@ -22,32 +22,32 @@ namespace TestProject.TaskLibrary.Tasks.Lesson12
                        "\n  Enter the partial name you want to look for.";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             partialName = "*" + s + "*";
             ConsIO.Write("Enter an extension for files you are looking for (e.g. '.txt'):  ");
             extension = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref extension);
+            Validators.CheckForExitTask(ref extension);
 
             ConsIO.Write($"Enter the directory you want to search in:  ");
             folderPath = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref folderPath);
+            Validators.CheckForExitTask(ref folderPath);
             dirInfo = new DirectoryInfo(folderPath);
             while (dirInfo.Exists==false)
             {
                 ConsIO.Write($"Entered directory does not exist, enter new path:  ");
                 folderPath = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref folderPath);
+                Validators.CheckForExitTask(ref folderPath);
                 dirInfo = new DirectoryInfo(folderPath);
             }
             
             ConsIO.Write("\nDo you want to search in the subdirectories too? [Y]es or [N]o:  ");
             s = ConsIO.ReadLine().ToLower();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             while (Validators.IsCorrectStringValue(ref s, "y", "n")==false)
             {
                 ConsIO.Write("\nEntered incorrect value. Only 'Y' or 'N':  ");
                 s = ConsIO.ReadLine().ToLower();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
             }
             
             searchOption = s.ToLower()=="y" ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;

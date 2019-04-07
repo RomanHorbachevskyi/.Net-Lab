@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="aToCheckAllTasks" xml:space="preserve">
+  <data name="LetterAToCheckAllTasks" xml:space="preserve">
     <value>у</value>
     <comment>Літера щоб перевірити усі завдання.</comment>
   </data>
@@ -129,7 +129,7 @@
     <value>Виберіть необхідний урок зі списку вище:</value>
   </data>
   <data name="ChooseNeededTaskFromListAbove" xml:space="preserve">
-    <value>Виберіть необхідне Завдання (1..{0}) зі списку вище:</value>
+    <value>Виберіть необхідне Завдання ({0}..{1}) зі списку вище:</value>
     <comment>Виберіть необхідне завдання зі списку</comment>
   </data>
   <data name="EnteredIncorrectValue" xml:space="preserve">
@@ -153,11 +153,11 @@
     <value>q</value>
     <comment>Літера щоб перервати виконання завдання</comment>
   </data>
-  <data name="sToCheckSpecificTask" xml:space="preserve">
+  <data name="LetterSForSpecificTask" xml:space="preserve">
     <value>к</value>
     <comment>Літера щоб перевірити усі завдання.</comment>
   </data>
-  <data name="WhatDoYouWantToDoCheckAllTasksOrSomeSpecific" xml:space="preserve">
+  <data name="HowRunTasks" xml:space="preserve">
     <value>Що ви хочете зробити, перевірити Усі завдання ("у") чи якісь конкретні ("к"):</value>
   </data>
   <data name="WhenYouAreInTheTasktoQuitTestingPressQOrB" xml:space="preserve">
@@ -173,5 +173,8 @@
   <data name="Task" xml:space="preserve">
     <value>Завдання</value>
     <comment>Слово, яке відображається перед Номером Завдання</comment>
+  </data>
+  <data name="CannotRunSelectedTask" xml:space="preserve">
+    <value>Не можу запустити обране завдання</value>
   </data>
 </root>

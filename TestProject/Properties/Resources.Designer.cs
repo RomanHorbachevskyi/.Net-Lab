@@ -61,20 +61,20 @@ namespace TestProject.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a.
-        /// </summary>
-        internal static string aToCheckAllTasks {
-            get {
-                return ResourceManager.GetString("aToCheckAllTasks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to b.
         /// </summary>
         internal static string bToQuitTesting {
             get {
                 return ResourceManager.GetString("bToQuitTesting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not run selected Task.
+        /// </summary>
+        internal static string CannotRunSelectedTask {
+            get {
+                return ResourceManager.GetString("CannotRunSelectedTask", resourceCulture);
             }
         }
         
@@ -88,7 +88,7 @@ namespace TestProject.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose needed Task (1..{0}) from the list above:.
+        ///   Looks up a localized string similar to Choose needed Task ({0}..{1}) from the list above:.
         /// </summary>
         internal static string ChooseNeededTaskFromListAbove {
             get {
@@ -133,6 +133,15 @@ namespace TestProject.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What do you want to do, check All Tasks (&quot;a&quot;) or some specific (&quot;s&quot;):.
+        /// </summary>
+        internal static string HowRunTasks {
+            get {
+                return ResourceManager.GetString("HowRunTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instructions.
         /// </summary>
         internal static string Instructions {
@@ -147,6 +156,24 @@ namespace TestProject.Properties {
         internal static string Lesson {
             get {
                 return ResourceManager.GetString("Lesson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a.
+        /// </summary>
+        internal static string LetterAToCheckAllTasks {
+            get {
+                return ResourceManager.GetString("LetterAToCheckAllTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to s.
+        /// </summary>
+        internal static string LetterSForSpecificTask {
+            get {
+                return ResourceManager.GetString("LetterSForSpecificTask", resourceCulture);
             }
         }
         
@@ -169,29 +196,11 @@ namespace TestProject.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to s.
-        /// </summary>
-        internal static string sToCheckSpecificTask {
-            get {
-                return ResourceManager.GetString("sToCheckSpecificTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Task.
         /// </summary>
         internal static string Task {
             get {
                 return ResourceManager.GetString("Task", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to What do you want to do, check All Tasks (&quot;a&quot;) or some specific (&quot;s&quot;):.
-        /// </summary>
-        internal static string WhatDoYouWantToDoCheckAllTasksOrSomeSpecific {
-            get {
-                return ResourceManager.GetString("WhatDoYouWantToDoCheckAllTasksOrSomeSpecific", resourceCulture);
             }
         }
         

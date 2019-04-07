@@ -23,7 +23,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.WriteLine(s);
             ConsIO.Write("How many rectangles do you want to draw?:  ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             RectanglesCount = Validators.GetIntPositiveNumber(s);
 
             rectangles = new Rectangle[RectanglesCount];
@@ -72,7 +72,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
             ConsIO.ClearBottom(ref offsetBottom);
             ConsIO.Write($"What to do now? [M]ove rectangle, [R]esize, create [I]ntersected, [S]mallest or [Q]uit?:  ");
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
 
             if (s.ToLower() == "m")
             {
@@ -257,7 +257,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
                 ConsIO.ClearBottom(ref Rectangle.OffsetBottom);
                 ConsIO.Write("\rEntered incorrect value! Allowed only TL,TR, BL, BR:  ");
                 s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
             }
 
             return s;
@@ -275,7 +275,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         {
             ConsIO.Write(description);
             description = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref description);
+            Validators.CheckForExitTask(ref description);
             result = Validators.GetIntNumber(description);
         }
         /// <summary>
@@ -290,7 +290,7 @@ namespace TestProject.TaskLibrary.Tasks.Lesson8
         {
             ConsIO.Write(description);
             description = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref description);
+            Validators.CheckForExitTask(ref description);
             result = Validators.GetIntPositiveNumber(description);
         }
 

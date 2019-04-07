@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using TestProject.Common.Core.Interfaces;
 using TestProject.Common.Core.Classes;
+using TestProject.Common.Core.Classes.Utilities;
 using TestProject.Common.Core.Classes.Utilities.Enumerators;
 
 namespace TestProject.TaskLibrary.Tasks.Lesson12
@@ -30,13 +31,13 @@ namespace TestProject.TaskLibrary.Tasks.Lesson12
                        "\n  Enter the directory path you want work with.";
             ConsIO.WriteLine(s);
             s = ConsIO.ReadLine();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             dirInfo = new DirectoryInfo(s);
             while (dirInfo.Exists == false)
             {
                 ConsIO.Write($"Entered directory does not exist, enter new path:  ");
                 s = ConsIO.ReadLine();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
                 dirInfo = new DirectoryInfo(s);
             }
             ConsIO.WriteLine($"Now we are at the directory: {dirInfo}");

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="aToCheckAllTasks" xml:space="preserve">
+  <data name="LetterAToCheckAllTasks" xml:space="preserve">
     <value>a</value>
     <comment>Letter to check all tasks.</comment>
   </data>
@@ -129,7 +129,7 @@
     <value>Choose needed lesson from the list above:</value>
   </data>
   <data name="ChooseNeededTaskFromListAbove" xml:space="preserve">
-    <value>Choose needed Task (1..{0}) from the list above:</value>
+    <value>Choose needed Task ({0}..{1}) from the list above:</value>
     <comment>Choose needed task from the list</comment>
   </data>
   <data name="EnteredIncorrectValue" xml:space="preserve">
@@ -153,11 +153,11 @@
     <value>q</value>
     <comment>Letter to break execution of the task.</comment>
   </data>
-  <data name="sToCheckSpecificTask" xml:space="preserve">
+  <data name="LetterSForSpecificTask" xml:space="preserve">
     <value>s</value>
     <comment>Letter to check all tasks.</comment>
   </data>
-  <data name="WhatDoYouWantToDoCheckAllTasksOrSomeSpecific" xml:space="preserve">
+  <data name="HowRunTasks" xml:space="preserve">
     <value>What do you want to do, check All Tasks ("a") or some specific ("s"):</value>
   </data>
   <data name="WhenYouAreInTheTasktoQuitTestingPressQOrB" xml:space="preserve">
@@ -173,5 +173,8 @@
   <data name="Task" xml:space="preserve">
     <value>Task</value>
     <comment>Word to show before the Number of the Task</comment>
+  </data>
+  <data name="CannotRunSelectedTask" xml:space="preserve">
+    <value>Can not run selected Task</value>
   </data>
 </root>

@@ -31,12 +31,12 @@ namespace TestProject.TaskLibrary.Tasks.Lesson2
             
             //calling method to choose shape
             s = ConsIO.ReadLine().ToLower();
-            ConsIO.CheckForExitTask(ref s);
+            Validators.CheckForExitTask(ref s);
             while (Validators.IsCorrectStringValue(ref s, shapes)==false)
             {
                 ConsIO.WriteLine("Entered incorrect value.\nChoose shape: ");
                 s = ConsIO.ReadLine().ToLower();
-                ConsIO.CheckForExitTask(ref s);
+                Validators.CheckForExitTask(ref s);
             }
             
             switch (s)
