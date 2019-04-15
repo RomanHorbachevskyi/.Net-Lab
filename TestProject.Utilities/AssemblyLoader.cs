@@ -4,10 +4,11 @@ using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TestProject.Utilities.Interfaces;
 using TestProject.Common.Core.Interfaces;
 
 
-namespace TestProject.Common.Core.Classes.Utilities
+namespace TestProject.Utilities
 {
     /// <summary>
     /// Class to load assembly and get public runnable types.
@@ -17,11 +18,11 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <summary>
         /// Name of the loaded assembly.
         /// </summary>
-        public string AssemblyName { get; }
+        public readonly string AssemblyName;
 
         private Assembly _loadedAssembly;
 
-        private IEnumerable<Type> _loadedPublicRunnableTypes;
+        private readonly IEnumerable<Type> _loadedPublicRunnableTypes;
 
         /// <summary>
         /// Initializes an instance of the AssemblyLoader class.
@@ -30,15 +31,11 @@ namespace TestProject.Common.Core.Classes.Utilities
         public AssemblyLoader(string assemblyName)
         {
             AssemblyName = assemblyName;
-            Init();
-        }
-
-        public void Init()
-        {
-            Load(AssemblyName);
+            Load(assemblyName);
             _loadedPublicRunnableTypes = Assembly.GetExportedTypes()
                     .OrderBy(t => t.FullName)
-                    .Where(typeof(IRunnable).IsAssignableFrom);
+                    .Where(typeof(IRunnable).IsAssignableFrom)
+                ;
         }
 
         /// <summary>
@@ -47,12 +44,11 @@ namespace TestProject.Common.Core.Classes.Utilities
         public AssemblyLoader()
         {
             AssemblyName = ConfigurationManager.AppSettings.Get("AssemblyName");
-            Init();
-            //Load(AssemblyName);
-            //_loadedPublicRunnableTypes = Assembly.GetExportedTypes()
-            //        .OrderBy(t=>t.FullName)
-            //        .Where(typeof(IRunnable).IsAssignableFrom)
-            //        ;
+            Load(AssemblyName);
+            _loadedPublicRunnableTypes = Assembly.GetExportedTypes()
+                    .OrderBy(t=>t.FullName)
+                    .Where(typeof(IRunnable).IsAssignableFrom)
+                    ;
         }
 
         /// <summary>
@@ -62,7 +58,6 @@ namespace TestProject.Common.Core.Classes.Utilities
         {
             get { return _loadedAssembly; }
         }
-
 
         /// <summary>
         /// Gets a list of loaded pubic runnable types.

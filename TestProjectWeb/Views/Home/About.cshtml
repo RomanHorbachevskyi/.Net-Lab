@@ -1,7 +1,12 @@
-﻿@{
+﻿@using System.IO
+@using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal
+@using Microsoft.AspNetCore.Razor.Language.CodeGeneration
+@{
     ViewData["Title"] = "About";
 }
+
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>Use this area to provide additional information. $"Hello {Int32.MaxValue}"</p>
+<text>@(string.Format("Hello {0} + 11111111", Int32.MaxValue))</text>

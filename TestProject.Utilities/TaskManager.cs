@@ -10,8 +10,11 @@ namespace TestProject.Common.Core.Classes.Utilities
 {
     public class TaskManager
     {
+        private SortedDictionary<string, List<string>> _treeOfSpaces;
         private Dictionary<string, List<string>> _tempTree;
-        
+        private SortedDictionary<string, List<string>> _treeOfTasks;
+
+        private string _assemblyName;
         private List<string> _tempList;
         private List<string> _tempTaskList;
 
@@ -20,7 +23,11 @@ namespace TestProject.Common.Core.Classes.Utilities
         private bool _canAddNewSpace = true;
         private bool _canBreakSpaceLoop = false;
 
-        
+        /// <summary>
+        /// Dictionary of Lessons
+        /// </summary>
+        public SortedDictionary<string, Type> Lessons;
+
         /// <summary>
         /// Dictionary of all tasks in the assembly
         /// </summary>
@@ -30,19 +37,19 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// Dictionary of partial Spaces in the Namespace.
         /// Key - parent space, Value - list of nested spaces (if exist).
         /// </summary>
-        public SortedDictionary<string, List<string>> TreeOfSpaces { get; private set; }
+        public SortedDictionary<string, List<string>> TreeOfSpaces
+        {
+            get { return _treeOfSpaces; }
+        }
 
         /// <summary>
         /// Dictionary of Tasks in the partial Spaces in the Namespace.
         /// Key - parent space, Value - list of nested Tasks (if exist).
         /// </summary>
-        public SortedDictionary<string, List<string>> TreeOfTasks { get; private set; }
-
-        /// <summary>
-        /// Name of the assembly we work with.
-        /// </summary>
-        public string AssemblyName { get; private set; }
-
+        public SortedDictionary<string, List<string>> TreeOfTasks
+        {
+            get { return _treeOfTasks; }
+        }
 
         /// <summary>
         /// Initializes an instance of the TaskManager class.
@@ -51,7 +58,7 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <param name="runnableTypes">List of runnable types from assembly.</param>
         public TaskManager(string assemblyName, IEnumerable<Type> runnableTypes)
         {
-            AssemblyName = assemblyName;
+            _assemblyName = assemblyName;
 
             // Adding all partial namespaces to the dictionary
             FillTreeOfNamespaces(runnableTypes);
@@ -59,7 +66,6 @@ namespace TestProject.Common.Core.Classes.Utilities
             // Adding all tasks to the dictionary
             FillTreeOfTasks(runnableTypes);
         }
-
 
         /// <summary>
         /// Gets list of nested partial spaces (if exists)
@@ -144,22 +150,22 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <param name="runnableTypes">List of runnable types.</param>
         private void FillTreeOfNamespaces(IEnumerable<Type> runnableTypes)
         {
-            TreeOfSpaces = new SortedDictionary<string, List<string>>();
+            _treeOfSpaces = new SortedDictionary<string, List<string>>();
             _tempList = new List<string>();
             _tempTree = new Dictionary<string, List<string>>();
             
             var tempNamespaces = runnableTypes.OrderBy(t => t.Namespace).Select(t => t.Namespace).Distinct();
 
-            _tempList = GetPartialSpaces(AssemblyName, tempNamespaces);
+            _tempList = GetPartialSpaces(_assemblyName, tempNamespaces);
 
             _lastPartialNamespace = "";
 
             if (_tempList.Count > 1)
             {
-                _lastPartialNamespace = AssemblyName + "." + _tempList[_tempList.Count - 1];
+                _lastPartialNamespace = _assemblyName + "." + _tempList[_tempList.Count - 1];
             }
 
-            _tempTree.Add(AssemblyName, _tempList);
+            _tempTree.Add(_assemblyName, _tempList);
             
             do
             {
@@ -168,7 +174,7 @@ namespace TestProject.Common.Core.Classes.Utilities
 
             foreach (var (key, list) in _tempTree)
             {
-                TreeOfSpaces.Add(key, list);
+                _treeOfSpaces.Add(key, list);
             }
         }
 
@@ -285,7 +291,7 @@ namespace TestProject.Common.Core.Classes.Utilities
         /// <param name="runnableTypes">List of runnable types.</param>
         private void FillTreeOfTasks(IEnumerable<Type> runnableTypes)
         {
-            TreeOfTasks = GetTasksInNamespaces(runnableTypes);
+            _treeOfTasks = GetTasksInNamespaces(runnableTypes);
             AllTasks=new SortedDictionary<string, Type>();
 
             foreach (var runnableType in runnableTypes)
